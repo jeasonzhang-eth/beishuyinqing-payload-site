@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    projects: Project;
+    services: Service;
+    notes: Note;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +81,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    notes: NotesSelect<false> | NotesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +93,28 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+    'site-copy': SiteCopy;
+    'home-page': HomePage;
+    'about-page': AboutPage;
+    'company-page': CompanyPage;
+    'contact-page': ContactPage;
+    'services-page': ServicesPage;
+    'projects-page': ProjectsPage;
+    'notes-page': NotesPage;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'site-copy': SiteCopySelect<false> | SiteCopySelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'company-page': CompanyPageSelect<false> | CompanyPageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
+    'projects-page': ProjectsPageSelect<false> | ProjectsPageSelect<true>;
+    'notes-page': NotesPageSelect<false> | NotesPageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -164,6 +190,158 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  language: 'zh' | 'en';
+  translationKey: string;
+  slug: string;
+  sourceId?: string | null;
+  routeKey?: string | null;
+  translationIdentity?: string | null;
+  kind: string;
+  summary: string;
+  definition: string;
+  audience: string;
+  overview: string;
+  why: string;
+  outcomes: {
+    value: string;
+    id?: string | null;
+  }[];
+  workflow: {
+    value: string;
+    id?: string | null;
+  }[];
+  next: string;
+  faq: {
+    question: string;
+    answer: string;
+    id?: string | null;
+  }[];
+  featured?: boolean | null;
+  order: number;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    noIndex?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  language: 'zh' | 'en';
+  translationKey: string;
+  slug: string;
+  sourceId?: string | null;
+  routeKey?: string | null;
+  translationIdentity?: string | null;
+  summary: string;
+  bestFor: string;
+  deliverables: {
+    value: string;
+    id?: string | null;
+  }[];
+  process: {
+    value: string;
+    id?: string | null;
+  }[];
+  evidence: string;
+  boundaries: string;
+  enabled?: boolean | null;
+  order: number;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    noIndex?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notes".
+ */
+export interface Note {
+  id: number;
+  title: string;
+  language: 'zh' | 'en';
+  translationKey: string;
+  slug: string;
+  sourceId?: string | null;
+  routeKey?: string | null;
+  translationIdentity?: string | null;
+  summary: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  tags?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt: string;
+  sourceUpdatedAt?: string | null;
+  featured?: boolean | null;
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    noIndex?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -193,6 +371,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'notes';
+        value: number | Note;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -279,6 +469,157 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  language?: T;
+  translationKey?: T;
+  slug?: T;
+  sourceId?: T;
+  routeKey?: T;
+  translationIdentity?: T;
+  kind?: T;
+  summary?: T;
+  definition?: T;
+  audience?: T;
+  overview?: T;
+  why?: T;
+  outcomes?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  workflow?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  next?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  featured?: T;
+  order?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        noIndex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  language?: T;
+  translationKey?: T;
+  slug?: T;
+  sourceId?: T;
+  routeKey?: T;
+  translationIdentity?: T;
+  summary?: T;
+  bestFor?: T;
+  deliverables?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  process?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  evidence?: T;
+  boundaries?: T;
+  enabled?: T;
+  order?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        noIndex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notes_select".
+ */
+export interface NotesSelect<T extends boolean = true> {
+  title?: T;
+  language?: T;
+  translationKey?: T;
+  slug?: T;
+  sourceId?: T;
+  routeKey?: T;
+  translationIdentity?: T;
+  summary?: T;
+  content?: T;
+  tags?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  publishedAt?: T;
+  sourceUpdatedAt?: T;
+  featured?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        noIndex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -316,6 +657,1338 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  siteName: string;
+  siteUrl: string;
+  authorName: string;
+  githubUrl: string;
+  llmsDescription: string;
+  defaultLanguage: 'zh' | 'en';
+  legalNameZh: string;
+  legalNameEn: string;
+  shortNameZh: string;
+  shortNameEn: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  addressZh: string;
+  addressEn: string;
+  cityZh: string;
+  cityEn: string;
+  postalCode: string;
+  countryCode: string;
+  icpNumber: string;
+  icpUrl: string;
+  verificationFile: string;
+  defaultSeoTitle: string;
+  defaultSeoDescription: string;
+  defaultShareImage?: (number | null) | Media;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-copy".
+ */
+export interface SiteCopy {
+  id: number;
+  zh: {
+    languageName: string;
+    siteControlsLabel: string;
+    primaryNavigationLabel: string;
+    redirectMessage: string;
+    redirectLinkLabel: string;
+    alternateLanguage: string;
+    themeLight: string;
+    themeDark: string;
+    viewWork: string;
+    readNotes: string;
+    contactAction: string;
+    selectedWork: string;
+    currentNotes: string;
+    workspace: string;
+    activeThreads: string;
+    projectsTitle: string;
+    notesTitle: string;
+    projectLabel: string;
+    noteLabel: string;
+    servicesLabel: string;
+    companyLabel: string;
+    aboutLabel: string;
+    contactLabel: string;
+    definition: string;
+    bestFor: string;
+    overview: string;
+    whyItMatters: string;
+    outcomes: string;
+    workflow: string;
+    principles: string;
+    checklist: string;
+    examples: string;
+    nextSteps: string;
+    faq: string;
+    footerCompany: string;
+    footerContact: string;
+    footerOffice: string;
+  };
+  en: {
+    languageName: string;
+    siteControlsLabel: string;
+    primaryNavigationLabel: string;
+    redirectMessage: string;
+    redirectLinkLabel: string;
+    alternateLanguage: string;
+    themeLight: string;
+    themeDark: string;
+    viewWork: string;
+    readNotes: string;
+    contactAction: string;
+    selectedWork: string;
+    currentNotes: string;
+    workspace: string;
+    activeThreads: string;
+    projectsTitle: string;
+    notesTitle: string;
+    projectLabel: string;
+    noteLabel: string;
+    servicesLabel: string;
+    companyLabel: string;
+    aboutLabel: string;
+    contactLabel: string;
+    definition: string;
+    bestFor: string;
+    overview: string;
+    whyItMatters: string;
+    outcomes: string;
+    workflow: string;
+    principles: string;
+    checklist: string;
+    examples: string;
+    nextSteps: string;
+    faq: string;
+    footerCompany: string;
+    footerContact: string;
+    footerOffice: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    identity: string;
+    primaryActionsLabel: string;
+    artworkAlt: string;
+    artworkCaption: string;
+    servicesTitle: string;
+    servicesIntro: string;
+    methodEyebrow: string;
+    methodTitle: string;
+    methodSteps: {
+      value: string;
+      id?: string | null;
+    }[];
+    companyEyebrow: string;
+    companyTitle: string;
+    companyText: string;
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    identity: string;
+    primaryActionsLabel: string;
+    artworkAlt: string;
+    artworkCaption: string;
+    servicesTitle: string;
+    servicesIntro: string;
+    methodEyebrow: string;
+    methodTitle: string;
+    methodSteps: {
+      value: string;
+      id?: string | null;
+    }[];
+    companyEyebrow: string;
+    companyTitle: string;
+    companyText: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    experienceTitle: string;
+    experience: {
+      value: string;
+      id?: string | null;
+    }[];
+    focusTitle: string;
+    focus: {
+      value: string;
+      id?: string | null;
+    }[];
+    workTitle: string;
+    work: {
+      value: string;
+      id?: string | null;
+    }[];
+    contactTitle: string;
+    contact: string;
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    experienceTitle: string;
+    experience: {
+      value: string;
+      id?: string | null;
+    }[];
+    focusTitle: string;
+    focus: {
+      value: string;
+      id?: string | null;
+    }[];
+    workTitle: string;
+    work: {
+      value: string;
+      id?: string | null;
+    }[];
+    contactTitle: string;
+    contact: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-page".
+ */
+export interface CompanyPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    artworkAlt: string;
+    artworkCaption: string;
+    relationshipTitle: string;
+    relationship: string;
+    fieldsTitle: string;
+    fields: {
+      value: string;
+      id?: string | null;
+    }[];
+    principlesTitle: string;
+    principles: {
+      value: string;
+      id?: string | null;
+    }[];
+    missionTitle: string;
+    mission: string;
+    ctaTitle: string;
+    ctaText: string;
+    ctaLabel: string;
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    artworkAlt: string;
+    artworkCaption: string;
+    relationshipTitle: string;
+    relationship: string;
+    fieldsTitle: string;
+    fields: {
+      value: string;
+      id?: string | null;
+    }[];
+    principlesTitle: string;
+    principles: {
+      value: string;
+      id?: string | null;
+    }[];
+    missionTitle: string;
+    mission: string;
+    ctaTitle: string;
+    ctaText: string;
+    ctaLabel: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    companyLabel: string;
+    phoneLabel: string;
+    addressLabel: string;
+    icpLabel: string;
+    callAction: string;
+    callDescription: string;
+    cooperationTitle: string;
+    cooperationText: string;
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    companyLabel: string;
+    phoneLabel: string;
+    addressLabel: string;
+    icpLabel: string;
+    callAction: string;
+    callDescription: string;
+    cooperationTitle: string;
+    cooperationText: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page".
+ */
+export interface ServicesPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    artworkAlt: string;
+    artworkCaption: string;
+    bestForLabel: string;
+    deliverablesLabel: string;
+    processLabel: string;
+    evidenceLabel: string;
+    boundariesLabel: string;
+    ctaTitle: string;
+    ctaText: string;
+    ctaLabel: string;
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    headline: string;
+    headlineLines: {
+      value: string;
+      id?: string | null;
+    }[];
+    lede: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+    artworkAlt: string;
+    artworkCaption: string;
+    bestForLabel: string;
+    deliverablesLabel: string;
+    processLabel: string;
+    evidenceLabel: string;
+    boundariesLabel: string;
+    ctaTitle: string;
+    ctaText: string;
+    ctaLabel: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page".
+ */
+export interface ProjectsPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notes-page".
+ */
+export interface NotesPage {
+  id: number;
+  zh: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+  };
+  en: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+      keywords?:
+        | {
+            value: string;
+            id?: string | null;
+          }[]
+        | null;
+      noIndex?: boolean | null;
+    };
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  siteUrl?: T;
+  authorName?: T;
+  githubUrl?: T;
+  llmsDescription?: T;
+  defaultLanguage?: T;
+  legalNameZh?: T;
+  legalNameEn?: T;
+  shortNameZh?: T;
+  shortNameEn?: T;
+  phoneDisplay?: T;
+  phoneHref?: T;
+  addressZh?: T;
+  addressEn?: T;
+  cityZh?: T;
+  cityEn?: T;
+  postalCode?: T;
+  countryCode?: T;
+  icpNumber?: T;
+  icpUrl?: T;
+  verificationFile?: T;
+  defaultSeoTitle?: T;
+  defaultSeoDescription?: T;
+  defaultShareImage?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-copy_select".
+ */
+export interface SiteCopySelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        languageName?: T;
+        siteControlsLabel?: T;
+        primaryNavigationLabel?: T;
+        redirectMessage?: T;
+        redirectLinkLabel?: T;
+        alternateLanguage?: T;
+        themeLight?: T;
+        themeDark?: T;
+        viewWork?: T;
+        readNotes?: T;
+        contactAction?: T;
+        selectedWork?: T;
+        currentNotes?: T;
+        workspace?: T;
+        activeThreads?: T;
+        projectsTitle?: T;
+        notesTitle?: T;
+        projectLabel?: T;
+        noteLabel?: T;
+        servicesLabel?: T;
+        companyLabel?: T;
+        aboutLabel?: T;
+        contactLabel?: T;
+        definition?: T;
+        bestFor?: T;
+        overview?: T;
+        whyItMatters?: T;
+        outcomes?: T;
+        workflow?: T;
+        principles?: T;
+        checklist?: T;
+        examples?: T;
+        nextSteps?: T;
+        faq?: T;
+        footerCompany?: T;
+        footerContact?: T;
+        footerOffice?: T;
+      };
+  en?:
+    | T
+    | {
+        languageName?: T;
+        siteControlsLabel?: T;
+        primaryNavigationLabel?: T;
+        redirectMessage?: T;
+        redirectLinkLabel?: T;
+        alternateLanguage?: T;
+        themeLight?: T;
+        themeDark?: T;
+        viewWork?: T;
+        readNotes?: T;
+        contactAction?: T;
+        selectedWork?: T;
+        currentNotes?: T;
+        workspace?: T;
+        activeThreads?: T;
+        projectsTitle?: T;
+        notesTitle?: T;
+        projectLabel?: T;
+        noteLabel?: T;
+        servicesLabel?: T;
+        companyLabel?: T;
+        aboutLabel?: T;
+        contactLabel?: T;
+        definition?: T;
+        bestFor?: T;
+        overview?: T;
+        whyItMatters?: T;
+        outcomes?: T;
+        workflow?: T;
+        principles?: T;
+        checklist?: T;
+        examples?: T;
+        nextSteps?: T;
+        faq?: T;
+        footerCompany?: T;
+        footerContact?: T;
+        footerOffice?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        identity?: T;
+        primaryActionsLabel?: T;
+        artworkAlt?: T;
+        artworkCaption?: T;
+        servicesTitle?: T;
+        servicesIntro?: T;
+        methodEyebrow?: T;
+        methodTitle?: T;
+        methodSteps?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        companyEyebrow?: T;
+        companyTitle?: T;
+        companyText?: T;
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        identity?: T;
+        primaryActionsLabel?: T;
+        artworkAlt?: T;
+        artworkCaption?: T;
+        servicesTitle?: T;
+        servicesIntro?: T;
+        methodEyebrow?: T;
+        methodTitle?: T;
+        methodSteps?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        companyEyebrow?: T;
+        companyTitle?: T;
+        companyText?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        experienceTitle?: T;
+        experience?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        focusTitle?: T;
+        focus?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        workTitle?: T;
+        work?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        contactTitle?: T;
+        contact?: T;
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        experienceTitle?: T;
+        experience?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        focusTitle?: T;
+        focus?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        workTitle?: T;
+        work?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        contactTitle?: T;
+        contact?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-page_select".
+ */
+export interface CompanyPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        artworkAlt?: T;
+        artworkCaption?: T;
+        relationshipTitle?: T;
+        relationship?: T;
+        fieldsTitle?: T;
+        fields?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        principlesTitle?: T;
+        principles?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        missionTitle?: T;
+        mission?: T;
+        ctaTitle?: T;
+        ctaText?: T;
+        ctaLabel?: T;
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        artworkAlt?: T;
+        artworkCaption?: T;
+        relationshipTitle?: T;
+        relationship?: T;
+        fieldsTitle?: T;
+        fields?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        principlesTitle?: T;
+        principles?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        missionTitle?: T;
+        mission?: T;
+        ctaTitle?: T;
+        ctaText?: T;
+        ctaLabel?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        companyLabel?: T;
+        phoneLabel?: T;
+        addressLabel?: T;
+        icpLabel?: T;
+        callAction?: T;
+        callDescription?: T;
+        cooperationTitle?: T;
+        cooperationText?: T;
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        companyLabel?: T;
+        phoneLabel?: T;
+        addressLabel?: T;
+        icpLabel?: T;
+        callAction?: T;
+        callDescription?: T;
+        cooperationTitle?: T;
+        cooperationText?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page_select".
+ */
+export interface ServicesPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        artworkAlt?: T;
+        artworkCaption?: T;
+        bestForLabel?: T;
+        deliverablesLabel?: T;
+        processLabel?: T;
+        evidenceLabel?: T;
+        boundariesLabel?: T;
+        ctaTitle?: T;
+        ctaText?: T;
+        ctaLabel?: T;
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        headline?: T;
+        headlineLines?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        lede?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+        artworkAlt?: T;
+        artworkCaption?: T;
+        bestForLabel?: T;
+        deliverablesLabel?: T;
+        processLabel?: T;
+        evidenceLabel?: T;
+        boundariesLabel?: T;
+        ctaTitle?: T;
+        ctaText?: T;
+        ctaLabel?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page_select".
+ */
+export interface ProjectsPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notes-page_select".
+ */
+export interface NotesPageSelect<T extends boolean = true> {
+  zh?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+      };
+  en?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        eyebrow?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              keywords?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              noIndex?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

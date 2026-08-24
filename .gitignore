@@ -45,6 +45,9 @@ next-env.d.ts
 /app.db
 /app.db-shm
 /app.db-wal
+/test.db
+/test.db-shm
+/test.db-wal
 
 # Playwright
 node_modules/
