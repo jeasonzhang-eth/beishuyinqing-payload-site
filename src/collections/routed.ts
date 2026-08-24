@@ -1,11 +1,7 @@
 import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload'
 
 import { authenticated, publishedOrAuthenticated } from '@/access'
-import {
-  buildRouteKey,
-  buildTranslationIdentity,
-  isLanguage,
-} from '@/content/contracts'
+import { buildRouteKey, buildTranslationIdentity, isLanguage } from '@/content/contracts'
 
 const populateIdentity: CollectionBeforeValidateHook = ({ data }) => {
   if (!data || !isLanguage(data.language)) return data

@@ -1,4 +1,10 @@
-import { faqList, requiredText, requiredTextarea, routedIdentityFields, stringList } from '@/fields/common'
+import {
+  faqList,
+  requiredText,
+  requiredTextarea,
+  routedIdentityFields,
+  stringList,
+} from '@/fields/common'
 import { seoField } from '@/fields/seo'
 
 import { routedCollection } from './routed'

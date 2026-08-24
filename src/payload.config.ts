@@ -10,7 +10,15 @@ import { Media } from './collections/Media'
 import { Notes } from './collections/Notes'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
-import { AboutPage, CompanyPage, ContactPage, HomePage, NotesPage, ProjectsPage, ServicesPage } from './globals/pages'
+import {
+  AboutPage,
+  CompanyPage,
+  ContactPage,
+  HomePage,
+  NotesPage,
+  ProjectsPage,
+  ServicesPage,
+} from './globals/pages'
 import { SiteCopy } from './globals/SiteCopy'
 import { SiteSettings } from './globals/SiteSettings'
 
