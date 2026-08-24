@@ -19,7 +19,7 @@ export const Notes = routedCollection({
     { name: 'publishedAt', type: 'date', required: true },
     { name: 'sourceUpdatedAt', label: 'Original updated time', type: 'date' },
     { name: 'featured', type: 'checkbox', defaultValue: false },
-    faqList(false),
+    faqList(false, true),
     seoField,
   ],
 })

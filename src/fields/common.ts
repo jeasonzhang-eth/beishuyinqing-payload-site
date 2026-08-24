@@ -25,13 +25,18 @@ export const stringList = (name: string, label: string): Field => ({
   fields: [requiredText('value', 'Value')],
 })
 
-export const faqList = (required = false): Field => ({
+export const faqList = (required = false, richTextAnswer = false): Field => ({
   name: 'faq',
   label: 'FAQ',
   type: 'array',
   required,
   minRows: required ? 1 : undefined,
-  fields: [requiredText('question', 'Question'), requiredTextarea('answer', 'Answer')],
+  fields: [
+    requiredText('question', 'Question'),
+    richTextAnswer
+      ? { name: 'answer', label: 'Answer', type: 'richText', required: true }
+      : requiredTextarea('answer', 'Answer'),
+  ],
 })
 
 export const languageField: Field = {
