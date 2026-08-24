@@ -171,19 +171,17 @@
 - Create: `src/app/(frontend)/sitemap.ts`
 - Create: `src/app/(frontend)/llms.txt/route.ts`
 - Create: `src/app/(frontend)/WW_verify_Xs9oqr5SLRAcpl58.txt/route.ts`
-- Create: `src/app/(frontend)/api/preview/route.ts`
-- Create: `src/app/(frontend)/api/preview/exit/route.ts`
 - Create: `tests/public-pages.test.ts`
 - Modify: `CHANGELOG.md`
 
 **Interfaces:**
 - Consumes: shared content loaders and view models.
-- Produces: all legacy public routes, metadata, Sitemap, robots, `llms.txt`, verification token, and authenticated draft preview entry/exit.
+- Produces: all legacy public routes, metadata, Sitemap, robots, `llms.txt`, and the verification token.
 
-- [ ] Write structural tests for all 35 expected pages, canonical/hreflang metadata, no-index exclusions, structured data, discovery routes, and preview-secret rejection.
+- [ ] Write structural tests for all 34 expected pages, canonical/hreflang metadata, no-index exclusions, structured data, and discovery routes.
 - [ ] Run focused tests and verify failures.
 - [ ] Port each Astro page template into focused React Server Components and generate route metadata.
-- [ ] Implement Lexical Note rendering, 404 behavior, discovery outputs, and draft preview controls.
+- [ ] Implement Lexical Note rendering, 404 behavior, and discovery outputs.
 - [ ] Run route tests and production build without a Sanity environment variable.
 - [ ] Update `CHANGELOG.md`, commit with `feat: migrate bilingual public website`, and push.
 

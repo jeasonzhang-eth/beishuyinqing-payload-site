@@ -39,8 +39,12 @@ describe('Payload migration mapping', () => {
     expect(project).toEqual(
       expect.objectContaining({ language: 'zh', translationKey: 'capty', slug: 'capty' }),
     )
-    expect(project?.outcomes).toEqual(expect.arrayContaining([expect.objectContaining({ value: expect.any(String) })]))
+    expect(project?.outcomes).toEqual(
+      expect.arrayContaining([expect.objectContaining({ value: expect.any(String) })]),
+    )
     expect(note?.content.root.children.length).toBeGreaterThan(1)
-    expect((note?.faq as Array<{ answer: { root: { children: unknown[] } } }>)[0].answer.root.children).toHaveLength(1)
+    expect(
+      (note?.faq as Array<{ answer: { root: { children: unknown[] } } }>)[0].answer.root.children,
+    ).toHaveLength(1)
   })
 })

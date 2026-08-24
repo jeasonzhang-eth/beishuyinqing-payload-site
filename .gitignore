@@ -40,8 +40,10 @@ next-env.d.ts
 
 .env
 
-/media
-/data
+/media/*
+!/media/.gitkeep
+/data/*
+!/data/.gitkeep
 /app.db
 /app.db-shm
 /app.db-wal
@@ -55,3 +57,4 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/backups/

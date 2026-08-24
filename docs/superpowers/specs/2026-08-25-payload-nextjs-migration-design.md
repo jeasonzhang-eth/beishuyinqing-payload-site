@@ -102,8 +102,7 @@ Canonical URLs, hreflang links, `x-default`, JSON-LD, no-index behavior, Sitemap
 ## Rendering and Editing
 
 - Public pages are React Server Components and query Payload on the server.
-- Published content is cached and invalidated by Payload `afterChange` hooks.
-- Draft Preview uses Next.js draft mode and authenticated preview URLs.
+- Published content is rendered dynamically from Payload Local API reads, so publishing does not require a separate build or cache invalidation hook.
 - Publishing content updates the website without a separate Astro build.
 - A CMS/database failure may prevent dynamic page generation, so production caching and the previous release remain part of the eventual cutover design.
 

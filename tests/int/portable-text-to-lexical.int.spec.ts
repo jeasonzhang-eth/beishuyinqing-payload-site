@@ -9,8 +9,24 @@ describe('Portable Text to Lexical conversion', () => {
     const result = portableTextToLexical([
       { _key: 'h', _type: 'block', style: 'h2', markDefs: [], children: [span('Overview')] },
       { _key: 'p', _type: 'block', style: 'normal', markDefs: [], children: [span('Body')] },
-      { _key: 'a', _type: 'block', style: 'normal', listItem: 'bullet', level: 1, markDefs: [], children: [span('One')] },
-      { _key: 'b', _type: 'block', style: 'normal', listItem: 'bullet', level: 1, markDefs: [], children: [span('Two')] },
+      {
+        _key: 'a',
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        level: 1,
+        markDefs: [],
+        children: [span('One')],
+      },
+      {
+        _key: 'b',
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        level: 1,
+        markDefs: [],
+        children: [span('Two')],
+      },
     ])
 
     expect(result.root.children.map((node) => node.type)).toEqual(['heading', 'paragraph', 'list'])

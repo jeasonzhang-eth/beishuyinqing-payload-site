@@ -1,0 +1,28 @@
+services:
+  site:
+    build:
+      context: .
+    container_name: multiple-engine-site
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: file:/app/data/payload.db
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - '${SITE_PORT:-3000}:3000'
+    volumes:
+      - payload-data:/app/data
+      - payload-media:/app/media
+      - ./backups:/app/backups
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--spider', 'http://127.0.0.1:3000/zh/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  payload-data:
+  payload-media:

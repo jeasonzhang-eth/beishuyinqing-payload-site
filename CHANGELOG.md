@@ -7,3 +7,4 @@
 - Added a strict, checksummed public Sanity snapshot export so migration and future builds can run without a live Sanity dependency.
 - Added deterministic Portable Text to Lexical conversion plus an idempotent Payload importer and source-ID content verification.
 - Migrated the bilingual public website to Payload-backed Next.js routes with the existing visual identity, responsive artwork, metadata, structured data, Sitemap, robots, and llms.txt discovery output.
+- Added production container persistence, atomic SQLite and media backups, local and deployment documentation, and browser verification for the public site and Payload Admin.

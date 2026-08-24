@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next'
 import { getSiteData } from '@/lib/site/data'
 import { canonicalUrl, LANGUAGES, localizePath } from '@/lib/site/routes'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await getSiteData()
   const staticRoutes = ['', 'about', 'company', 'contact', 'services', 'projects', 'notes']

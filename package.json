@@ -20,7 +20,9 @@
     "test:all": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
-    "verify:content": "tsx scripts/verify-import.ts"
+    "verify": "pnpm content:snapshot:verify && pnpm test:int && pnpm lint && pnpm verify:content && pnpm build",
+    "verify:content": "tsx scripts/verify-import.ts",
+    "verify:e2e": "pnpm test:e2e"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "3.88.0",
