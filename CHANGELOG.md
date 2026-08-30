@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-31
+
+- Made Payload configuration load the repository environment file directly so local Next.js and Turbopack startup cannot initialize Payload before `PAYLOAD_SECRET` is available.
+
 ## 2026-08-25
 
 - Created the Payload 3.88 and Next.js 16 application foundation with SQLite, authenticated administrators, image uploads, generated types, integration tests, and production build support.
