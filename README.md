@@ -71,11 +71,14 @@ Create `.env`, set `NEXT_PUBLIC_SERVER_URL` to the production HTTPS origin, and 
 
 ```bash
 mkdir -p backups
-docker compose up -d --build
+docker compose --profile maintenance run --rm --build seed
+docker compose up -d --build site
 docker compose ps
 ```
 
-`compose.yaml` runs a single non-root application instance. Named volumes persist SQLite and uploads. Do not scale this SQLite service beyond one application instance; migrate to PostgreSQL before horizontal scaling.
+The one-shot `seed` service imports the checked-in Sanity snapshot and fixes persistent-volume ownership before the non-root site process starts. It is idempotent and can be run again to update migrated records. `compose.yaml` binds the application only to `127.0.0.1`; place Nginx or another authenticated reverse proxy in front of it.
+
+The Compose project has a stable name, so its SQLite and media volumes survive source release-directory changes. Do not scale this SQLite service beyond one application instance; migrate to PostgreSQL before horizontal scaling.
 
 ## Backup and restore
 

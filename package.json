@@ -4,6 +4,7 @@
   "description": "Payload CMS and Next.js website for beishuyinqing.cn",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@9.4.0",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "content:export": "tsx scripts/export-sanity.ts",
@@ -36,7 +37,7 @@
     "payload": "3.88.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "sharp": "0.34.2"
+    "sharp": "0.35.4"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
@@ -59,6 +60,9 @@
     "pnpm": "^9 || ^10 || ^11"
   },
   "pnpm": {
+    "overrides": {
+      "dompurify": "3.4.14"
+    },
     "onlyBuiltDependencies": [
       "sharp",
       "esbuild",
