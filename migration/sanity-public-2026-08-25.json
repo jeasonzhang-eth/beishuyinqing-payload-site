@@ -1,0 +1,4361 @@
+{
+  "apiVersion": "2026-07-13",
+  "dataset": "production",
+  "exportedAt": "2026-08-24T19:13:53.585Z",
+  "notes": [
+    {
+      "_id": "note-ai-agent-workflow-en",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "4d1bed794085",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "87400a303ab0",
+              "_type": "span",
+              "marks": [],
+              "text": "Definition"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "ce33c760403a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "e112d8263f2e",
+              "_type": "span",
+              "marks": [],
+              "text": "An AI agent workflow is a repeatable way to move from intent to inspected output with memory, checkpoints, and human review."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "97bb06f6b0de",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1742247576bd",
+              "_type": "span",
+              "marks": [],
+              "text": "Overview"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0847344b75d9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5da9902573e8",
+              "_type": "span",
+              "marks": [],
+              "text": "The useful unit is not a single prompt. It is a loop: give the agent context, let it act, inspect the result, preserve what matters, and turn the learning into the next run."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "fdf80d0c846b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b820acb63f6f",
+              "_type": "span",
+              "marks": [],
+              "text": "Principles"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "77a631e37c3e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9c34bee5c0e7",
+              "_type": "span",
+              "marks": [],
+              "text": "Start from the repository or workspace reality, not from an abstract prompt."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "80c39174d8d1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "adddc9c56faf",
+              "_type": "span",
+              "marks": [],
+              "text": "Make the agent show its work through files, tests, diffs, and small status updates."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "8bd336f17243",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "79604daf0688",
+              "_type": "span",
+              "marks": [],
+              "text": "Save reusable decisions in project docs, changelogs, or structured data."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "246a6e7bd22d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "36f6080c7bc3",
+              "_type": "span",
+              "marks": [],
+              "text": "Keep the human in charge of taste, risk, and final judgment."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a0de703b2f17",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c257503fe425",
+              "_type": "span",
+              "marks": [],
+              "text": "Checklist"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0fb2ec40232f",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "6e703fe1ca69",
+              "_type": "span",
+              "marks": [],
+              "text": "Define the concrete output before starting."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a2f3720749d0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "503b2230d585",
+              "_type": "span",
+              "marks": [],
+              "text": "Read the existing project instructions and current git state."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "8cac19117de6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3f9cb1e94621",
+              "_type": "span",
+              "marks": [],
+              "text": "Work in small verified steps rather than one giant generation."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "b585b0dd4cd6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "cbf9e5f51709",
+              "_type": "span",
+              "marks": [],
+              "text": "Run checks that match the risk: typecheck, build, tests, or visual review."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "7aa01473821b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "34eec2a1a75e",
+              "_type": "span",
+              "marks": [],
+              "text": "Record the useful learning where the next session can find it."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "9c17637454a8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "37b2d29acefe",
+              "_type": "span",
+              "marks": [],
+              "text": "Examples"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "df30bf3a5af7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f8a86e8bd549",
+              "_type": "span",
+              "marks": [],
+              "text": "Turning a website feature request into code, build verification, and a changelog entry."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "461c916d125a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5368f32af1c8",
+              "_type": "span",
+              "marks": [],
+              "text": "Converting a research question into a structured page with FAQ and internal links."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "d7e8d1bc751e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "e1a399551796",
+              "_type": "span",
+              "marks": [],
+              "text": "Using an agent to inspect a local workflow and produce repeatable steps."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "994b93b3af10",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "65334de02bb9",
+              "_type": "span",
+              "marks": [],
+              "text": "Next steps"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "212fef6c01d5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "506a379d2254",
+              "_type": "span",
+              "marks": [],
+              "text": "Add concrete case studies from this site build: language routing, SEO structure, and content expansion."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "ai-agent-workflow-en-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "a497c121c89b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "953c0c203044",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Prompting asks for an answer. A workflow defines context, actions, checks, memory, and what counts as done."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "What makes an agent workflow different from prompting?"
+        },
+        {
+          "_key": "ai-agent-workflow-en-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "ec8a833526ee",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "33236815fa39",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Close to the work: AGENTS.md, changelogs, data files, specs, or wiki pages that future sessions will actually read."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "Where should project memory live?"
+        }
+      ],
+      "featured": false,
+      "language": "en",
+      "publishedAt": "2026-07-13T00:00:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "How to turn agent sessions into reusable project memory, checklists, and shipping habits.",
+        "noIndex": false,
+        "title": "AI agent workflow"
+      },
+      "slug": "ai-agent-workflow",
+      "summary": "How to turn agent sessions into reusable project memory, checklists, and shipping habits.",
+      "tags": [
+        "AI agents"
+      ],
+      "title": "AI agent workflow",
+      "translationKey": "ai-agent-workflow"
+    },
+    {
+      "_id": "note-ai-agent-workflow-zh",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "e0244035e2b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1cae3a63f9fc",
+              "_type": "span",
+              "marks": [],
+              "text": "定义"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "3ca23acddc6d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "8661c7192e42",
+              "_type": "span",
+              "marks": [],
+              "text": "AI 智能体工作流，是一套从意图到可检查产出的重复方法，包含记忆、检查点和人的复核。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3bede950af23",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c42297bee2c6",
+              "_type": "span",
+              "marks": [],
+              "text": "概览"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "d483b990c4e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b9b7fd6ad1d8",
+              "_type": "span",
+              "marks": [],
+              "text": "有用的单位不是单条 prompt，而是一个循环：给智能体上下文，让它行动，检查结果，保留重要信息，再把学习结果带入下一轮。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c599b37d4c8e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "85c0baf6f3bb",
+              "_type": "span",
+              "marks": [],
+              "text": "原则"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "6b6da6f6d727",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "4773066fcbfc",
+              "_type": "span",
+              "marks": [],
+              "text": "从仓库或工作区的真实状态出发，而不是从抽象提示词出发。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "84d0d2970758",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "8ae0df5d6b86",
+              "_type": "span",
+              "marks": [],
+              "text": "让智能体通过文件、测试、diff 和短状态更新展示工作过程。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c3e647351493",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3b6e9c8b2e28",
+              "_type": "span",
+              "marks": [],
+              "text": "把可复用决策保存到项目文档、changelog 或结构化数据里。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1813be974f6c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ab661ec455c0",
+              "_type": "span",
+              "marks": [],
+              "text": "让人保留品味、风险和最终判断权。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "72610ea1c6a2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9ff1af6203d1",
+              "_type": "span",
+              "marks": [],
+              "text": "检查清单"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "a345616c626a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "30a9b2971514",
+              "_type": "span",
+              "marks": [],
+              "text": "开始前定义清楚具体产出。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c8e61f288786",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "479078594f14",
+              "_type": "span",
+              "marks": [],
+              "text": "读取现有项目指令和当前 git 状态。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "2e007c622f77",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "8832c88c982f",
+              "_type": "span",
+              "marks": [],
+              "text": "用小步验证推进，而不是一次性生成一大坨。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "f4806f1f642d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9bc6d21a2261",
+              "_type": "span",
+              "marks": [],
+              "text": "根据风险运行检查：类型检查、构建、测试或视觉 review。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "cf9c20a4728c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f765e98b161b",
+              "_type": "span",
+              "marks": [],
+              "text": "把有用学习记录到下次会话能找到的位置。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a5be3d0f6dc7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "d09c5a41581f",
+              "_type": "span",
+              "marks": [],
+              "text": "示例"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "4bcfd2f2165b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "2c1c2f31f5f2",
+              "_type": "span",
+              "marks": [],
+              "text": "把网站功能请求变成代码、构建验证和 changelog 记录。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "683d31fdfbd0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "62670fa4ffb0",
+              "_type": "span",
+              "marks": [],
+              "text": "把研究问题整理成带 FAQ 和内链的结构化页面。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "939eaf7e556b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0496de27ef22",
+              "_type": "span",
+              "marks": [],
+              "text": "用智能体检查本地工作流，并产出可重复步骤。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1328f35dd9e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ddbe198c49fe",
+              "_type": "span",
+              "marks": [],
+              "text": "下一步"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "7e4cabcf72a1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "93ad6104f5c3",
+              "_type": "span",
+              "marks": [],
+              "text": "补充这个网站搭建过程中的真实案例：多语言路由、SEO 结构和内容扩展。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "ai-agent-workflow-zh-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "8d4b1cbc8160",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "f840b9b2a56d",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "提示词是在要答案；工作流是在定义上下文、行动、检查、记忆和完成标准。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "智能体工作流和提示词有什么区别？"
+        },
+        {
+          "_key": "ai-agent-workflow-zh-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "f4b766195ea7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "15abb7526b3d",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "放在离工作最近的地方：AGENTS.md、changelog、数据文件、规格文档或未来会话真的会读取的 wiki 页面。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "项目记忆应该放在哪里？"
+        }
+      ],
+      "featured": false,
+      "language": "zh",
+      "publishedAt": "2026-07-13T00:00:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "如何把智能体会话沉淀成项目记忆、检查清单和交付习惯。",
+        "noIndex": false,
+        "title": "AI 智能体工作流"
+      },
+      "slug": "ai-agent-workflow",
+      "summary": "如何把智能体会话沉淀成项目记忆、检查清单和交付习惯。",
+      "tags": [
+        "AI 智能体"
+      ],
+      "title": "AI 智能体工作流",
+      "translationKey": "ai-agent-workflow"
+    },
+    {
+      "_id": "note-desktop-automation-en",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "4d1bed794085",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "87400a303ab0",
+              "_type": "span",
+              "marks": [],
+              "text": "Definition"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "43abe96e1cb8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f44cf9b113d5",
+              "_type": "span",
+              "marks": [],
+              "text": "Desktop automation is the practice of connecting local files, apps, browsers, scripts, and AI tools into repeatable personal workflows."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "97bb06f6b0de",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1742247576bd",
+              "_type": "span",
+              "marks": [],
+              "text": "Overview"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "9558dcfe519b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "45c5b9657c30",
+              "_type": "span",
+              "marks": [],
+              "text": "The desktop is still the control room for a lot of real work. Automation here is not only about saving clicks. It is about preserving context across apps and turning repeated manual routines into inspected systems."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "fdf80d0c846b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b820acb63f6f",
+              "_type": "span",
+              "marks": [],
+              "text": "Principles"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "5d80b30b2220",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "73591d7962ce",
+              "_type": "span",
+              "marks": [],
+              "text": "Automate the boring middle, not the judgment at the end."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3278fde77ce0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b1764576450d",
+              "_type": "span",
+              "marks": [],
+              "text": "Prefer visible, reversible steps before hiding everything behind a button."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a29225681292",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "27448c0aa5db",
+              "_type": "span",
+              "marks": [],
+              "text": "Keep local files and generated outputs organized enough for future agents to inspect."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "5be3658a9e30",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9fad9afd5796",
+              "_type": "span",
+              "marks": [],
+              "text": "Treat screenshots, clipboard content, browser state, and terminal output as workflow inputs."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a0de703b2f17",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c257503fe425",
+              "_type": "span",
+              "marks": [],
+              "text": "Checklist"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "d77848a35b39",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5d105a44240b",
+              "_type": "span",
+              "marks": [],
+              "text": "Identify a routine that repeats at least weekly."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3dd698f6e2ca",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "78ea7881ceb3",
+              "_type": "span",
+              "marks": [],
+              "text": "Write down its inputs, tools, decisions, and final output."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "427b2d9c90a3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f8a409302e1e",
+              "_type": "span",
+              "marks": [],
+              "text": "Script the stable parts first."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "6b8e9ca6d164",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f8395ec5c311",
+              "_type": "span",
+              "marks": [],
+              "text": "Keep a manual escape hatch for risky or ambiguous steps."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "08d065d6ab70",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "93725c06a96b",
+              "_type": "span",
+              "marks": [],
+              "text": "Document the workflow where it can be reused."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "9c17637454a8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "37b2d29acefe",
+              "_type": "span",
+              "marks": [],
+              "text": "Examples"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "6b94c646a0ba",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b03281645053",
+              "_type": "span",
+              "marks": [],
+              "text": "Capturing an audio note, transcribing it, and turning it into a project brief."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "ee9996f07a20",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "2d5a0a5d744c",
+              "_type": "span",
+              "marks": [],
+              "text": "Opening a local dev server, checking the browser, and committing verified UI changes."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "8ce01717ffc0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b6066c9a3508",
+              "_type": "span",
+              "marks": [],
+              "text": "Collecting source material into a structured content page."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "994b93b3af10",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "65334de02bb9",
+              "_type": "span",
+              "marks": [],
+              "text": "Next steps"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "23fd0b78169d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3bbc34e86618",
+              "_type": "span",
+              "marks": [],
+              "text": "Add diagrams and step-by-step recipes for the desktop workflows behind this site."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "desktop-automation-en-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "d2b72d663d9c",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e6f7aa753289",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "No. Automate repeated mechanical steps. Keep high-risk decisions visible and reviewed."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "Should everything be automated?"
+        },
+        {
+          "_key": "desktop-automation-en-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "a704d467e476",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "7d84e26c72a0",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "This workspace currently uses Mac OS tools, local files, browser sessions, and desktop apps as the main operating surface."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "Why Mac-first?"
+        }
+      ],
+      "featured": false,
+      "language": "en",
+      "publishedAt": "2026-07-12T23:59:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "Notes on local tools, scripts, capture loops, and Mac-first automation.",
+        "noIndex": false,
+        "title": "Desktop automation"
+      },
+      "slug": "desktop-automation",
+      "summary": "Notes on local tools, scripts, capture loops, and Mac-first automation.",
+      "tags": [
+        "desktop automation"
+      ],
+      "title": "Desktop automation",
+      "translationKey": "desktop-automation"
+    },
+    {
+      "_id": "note-desktop-automation-zh",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "e0244035e2b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1cae3a63f9fc",
+              "_type": "span",
+              "marks": [],
+              "text": "定义"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "cc0dd35b198e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "deef35653d92",
+              "_type": "span",
+              "marks": [],
+              "text": "桌面自动化，是把本地文件、应用、浏览器、脚本和 AI 工具连接成可重复个人工作流的实践。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3bede950af23",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c42297bee2c6",
+              "_type": "span",
+              "marks": [],
+              "text": "概览"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "cb6ede29a763",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ba8e8d0e6418",
+              "_type": "span",
+              "marks": [],
+              "text": "桌面仍然是很多真实工作的控制室。这里的自动化不只是少点几下，而是在应用之间保留上下文，把重复手工流程变成可检查的系统。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c599b37d4c8e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "85c0baf6f3bb",
+              "_type": "span",
+              "marks": [],
+              "text": "原则"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "060bdf16d639",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5c9a38ebc217",
+              "_type": "span",
+              "marks": [],
+              "text": "自动化无聊的中间步骤，而不是替代最后的判断。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "173158a1e70e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "fe6c58d2c4f7",
+              "_type": "span",
+              "marks": [],
+              "text": "在把一切藏进按钮之前，先保留可见、可回退的步骤。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "47d3b56b48a7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c9b0ba17f815",
+              "_type": "span",
+              "marks": [],
+              "text": "让本地文件和生成物足够有序，未来智能体能检查。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "e090599b7f2e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9f02918ddafc",
+              "_type": "span",
+              "marks": [],
+              "text": "把截图、剪贴板、浏览器状态和终端输出都视为工作流输入。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "72610ea1c6a2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9ff1af6203d1",
+              "_type": "span",
+              "marks": [],
+              "text": "检查清单"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "abf07afb04cb",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "27667c6f41be",
+              "_type": "span",
+              "marks": [],
+              "text": "找出至少每周重复一次的流程。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1cfcfef31bb8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "a3bea79d310d",
+              "_type": "span",
+              "marks": [],
+              "text": "写下它的输入、工具、决策和最终产出。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a7e7cd63c821",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b166f4e71e9b",
+              "_type": "span",
+              "marks": [],
+              "text": "优先脚本化稳定部分。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "f86f4be36a8b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "2c293c3f1263",
+              "_type": "span",
+              "marks": [],
+              "text": "为高风险或模糊步骤保留人工出口。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1e0625ec318d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f854b54a73df",
+              "_type": "span",
+              "marks": [],
+              "text": "把流程记录到可以复用的位置。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a5be3d0f6dc7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "d09c5a41581f",
+              "_type": "span",
+              "marks": [],
+              "text": "示例"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "fe217cb1d778",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b0af3633b459",
+              "_type": "span",
+              "marks": [],
+              "text": "捕捉一段语音笔记，转写后整理成项目 brief。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "6f51ac1a2657",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "932f68111117",
+              "_type": "span",
+              "marks": [],
+              "text": "启动本地开发服务，检查浏览器，再提交通过验证的 UI 改动。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c98496078cdd",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "e790d88dedee",
+              "_type": "span",
+              "marks": [],
+              "text": "把源材料整理成结构化内容页面。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1328f35dd9e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ddbe198c49fe",
+              "_type": "span",
+              "marks": [],
+              "text": "下一步"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "eb6bef00c969",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ebaaa7c7157c",
+              "_type": "span",
+              "marks": [],
+              "text": "补充这个网站背后的桌面工作流图和分步骤操作配方。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "desktop-automation-zh-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "ed786c18802f",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "1a73422cc774",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "不。自动化重复机械步骤，把高风险决策保持可见并复核。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "所有东西都应该自动化吗？"
+        },
+        {
+          "_key": "desktop-automation-zh-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "097e06a016b9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "d75a5206095b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "当前工作区主要以 Mac OS 工具、本地文件、浏览器会话和桌面应用作为操作界面。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "为什么是 Mac 优先？"
+        }
+      ],
+      "featured": false,
+      "language": "zh",
+      "publishedAt": "2026-07-12T23:59:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "关于本地工具、脚本、捕捉循环和 Mac 优先自动化的记录。",
+        "noIndex": false,
+        "title": "桌面自动化"
+      },
+      "slug": "desktop-automation",
+      "summary": "关于本地工具、脚本、捕捉循环和 Mac 优先自动化的记录。",
+      "tags": [
+        "桌面自动化"
+      ],
+      "title": "桌面自动化",
+      "translationKey": "desktop-automation"
+    },
+    {
+      "_id": "note-creator-tools-en",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "4d1bed794085",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "87400a303ab0",
+              "_type": "span",
+              "marks": [],
+              "text": "Definition"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "2a941b88d223",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "56bf78b8d75f",
+              "_type": "span",
+              "marks": [],
+              "text": "Creator tools are the capture, editing, packaging, and publishing systems that turn scattered raw material into finished artifacts."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "97bb06f6b0de",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1742247576bd",
+              "_type": "span",
+              "marks": [],
+              "text": "Overview"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "f53478b3f71b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0d3aeaa0b9ed",
+              "_type": "span",
+              "marks": [],
+              "text": "Publishing consistently is less about inspiration than throughput. The toolchain needs to move ideas from capture to outline, draft, review, visual packaging, and distribution without losing the original signal."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "fdf80d0c846b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b820acb63f6f",
+              "_type": "span",
+              "marks": [],
+              "text": "Principles"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "71920d512fd1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "86190dc316bb",
+              "_type": "span",
+              "marks": [],
+              "text": "Capture raw material before trying to polish it."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "8e1c71260ed9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "66d58435e5e9",
+              "_type": "span",
+              "marks": [],
+              "text": "Separate thinking, drafting, editing, and packaging into different passes."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "cde92ebc4923",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "434a887e0095",
+              "_type": "span",
+              "marks": [],
+              "text": "Keep source material linked so claims can be traced back."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "95b7dcaa6dc6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "93a4d4a1830c",
+              "_type": "span",
+              "marks": [],
+              "text": "Design repeatable formats for notes, landing pages, screenshots, and social posts."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a0de703b2f17",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c257503fe425",
+              "_type": "span",
+              "marks": [],
+              "text": "Checklist"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "64cf38431e31",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c77bc01e35ea",
+              "_type": "span",
+              "marks": [],
+              "text": "Collect the raw source and write down why it matters."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "595265927a04",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "697779970a9b",
+              "_type": "span",
+              "marks": [],
+              "text": "Extract the core claim or useful lesson."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "f0451064895a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "51815cedf6b7",
+              "_type": "span",
+              "marks": [],
+              "text": "Choose the output shape: note, guide, project page, image card, or thread."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "809845e33f44",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "7d232cdaef4c",
+              "_type": "span",
+              "marks": [],
+              "text": "Edit for clarity before adding style."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "5f14620a09ae",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f54f8b7f3761",
+              "_type": "span",
+              "marks": [],
+              "text": "Publish with metadata, links, and an obvious next step."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "9c17637454a8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "37b2d29acefe",
+              "_type": "span",
+              "marks": [],
+              "text": "Examples"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "18c8a3f65489",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "004e651cf7c7",
+              "_type": "span",
+              "marks": [],
+              "text": "Turning a product build session into a short project update."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "2e1c41b34012",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "8f6f4201d740",
+              "_type": "span",
+              "marks": [],
+              "text": "Turning research notes into a searchable evergreen page."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "06b9a3ef0bbd",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f60fc5d6f58b",
+              "_type": "span",
+              "marks": [],
+              "text": "Turning a workflow lesson into a checklist and visual card."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "994b93b3af10",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "65334de02bb9",
+              "_type": "span",
+              "marks": [],
+              "text": "Next steps"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "ccf93f86bf90",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "8fef639d6bab",
+              "_type": "span",
+              "marks": [],
+              "text": "Add the actual publishing templates used for this site and related content channels."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "creator-tools-en-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "88d7774996f3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "7bda6d370b9d",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A reliable capture system. If the raw material is lost, the editing stack does not matter."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "What is the most important creator tool?"
+        },
+        {
+          "_key": "creator-tools-en-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "da782e8ed5ae",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "f11e9ae25b7f",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Clear creator workflows produce pages with better structure, stronger evidence, and more quotable answers."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "How does this relate to GEO?"
+        }
+      ],
+      "featured": false,
+      "language": "en",
+      "publishedAt": "2026-07-12T23:58:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "Tools and habits for turning raw material into publishable work.",
+        "noIndex": false,
+        "title": "Creator tools"
+      },
+      "slug": "creator-tools",
+      "summary": "Tools and habits for turning raw material into publishable work.",
+      "tags": [
+        "creator tools"
+      ],
+      "title": "Creator tools",
+      "translationKey": "creator-tools"
+    },
+    {
+      "_id": "note-creator-tools-zh",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "e0244035e2b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1cae3a63f9fc",
+              "_type": "span",
+              "marks": [],
+              "text": "定义"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "36ad226b5aae",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5df409eef31e",
+              "_type": "span",
+              "marks": [],
+              "text": "创作者工具，是把零散原始材料转成成品的捕捉、编辑、包装和发布系统。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3bede950af23",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c42297bee2c6",
+              "_type": "span",
+              "marks": [],
+              "text": "概览"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "11dc36180123",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5924d22f60cf",
+              "_type": "span",
+              "marks": [],
+              "text": "稳定发布靠的不是灵感，而是吞吐。工具链需要把想法从捕捉、提纲、草稿、复核、视觉包装一路推到分发，同时不丢掉原始信号。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c599b37d4c8e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "85c0baf6f3bb",
+              "_type": "span",
+              "marks": [],
+              "text": "原则"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "80e917046e38",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3d7e5ba37dc8",
+              "_type": "span",
+              "marks": [],
+              "text": "先捕捉原材料，再尝试打磨。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "f7685496809c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "91fd10c100ef",
+              "_type": "span",
+              "marks": [],
+              "text": "把思考、起草、编辑和包装拆成不同轮次。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "6b12749a48f9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "66c0603fdef2",
+              "_type": "span",
+              "marks": [],
+              "text": "保留源材料链接，让观点能追溯。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "e285fcde311f",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "236c1d0652eb",
+              "_type": "span",
+              "marks": [],
+              "text": "为笔记、落地页、截图和社交内容设计可复用格式。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "72610ea1c6a2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9ff1af6203d1",
+              "_type": "span",
+              "marks": [],
+              "text": "检查清单"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "6ff3fddf9e34",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "5aba82bf648e",
+              "_type": "span",
+              "marks": [],
+              "text": "收集原始来源，并写下它为什么重要。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "958ea9fe9601",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "df302881da8d",
+              "_type": "span",
+              "marks": [],
+              "text": "提取核心观点或有用经验。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3854e0b232e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "20c7c2d8bd57",
+              "_type": "span",
+              "marks": [],
+              "text": "选择输出形态：笔记、指南、项目页、图文卡片或 thread。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bc9e3735fb75",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ab080dae1c5d",
+              "_type": "span",
+              "marks": [],
+              "text": "先编辑清晰度，再加风格。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "d189236d8c2e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "e63bc34cc93f",
+              "_type": "span",
+              "marks": [],
+              "text": "发布时带上元信息、链接和明确下一步。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a5be3d0f6dc7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "d09c5a41581f",
+              "_type": "span",
+              "marks": [],
+              "text": "示例"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "35a2599b1db3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ed42a9b235ab",
+              "_type": "span",
+              "marks": [],
+              "text": "把一次产品构建会话变成短项目更新。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a505ee55eaf3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "616ae5544650",
+              "_type": "span",
+              "marks": [],
+              "text": "把研究笔记变成可搜索的长期页面。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c45e4bb8dfac",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "03363117fce3",
+              "_type": "span",
+              "marks": [],
+              "text": "把工作流经验变成检查清单和视觉卡片。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1328f35dd9e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ddbe198c49fe",
+              "_type": "span",
+              "marks": [],
+              "text": "下一步"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "8d5a054f991a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c6dd2c98f426",
+              "_type": "span",
+              "marks": [],
+              "text": "补充这个网站和相关内容渠道实际使用的发布模板。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "creator-tools-zh-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "bb92001374de",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b7ab87644444",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "可靠的捕捉系统。原材料丢了，后面的编辑工具再好也没意义。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "最重要的创作者工具是什么？"
+        },
+        {
+          "_key": "creator-tools-zh-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "123d5d23dcdf",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "c02642ee7fc2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "清晰的创作工作流会产出结构更好、证据更强、更容易被引用的页面。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "这和 GEO 有什么关系？"
+        }
+      ],
+      "featured": false,
+      "language": "zh",
+      "publishedAt": "2026-07-12T23:58:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "把原始素材变成可发布作品所需的工具和习惯。",
+        "noIndex": false,
+        "title": "创作者工具"
+      },
+      "slug": "creator-tools",
+      "summary": "把原始素材变成可发布作品所需的工具和习惯。",
+      "tags": [
+        "创作者工具"
+      ],
+      "title": "创作者工具",
+      "translationKey": "creator-tools"
+    },
+    {
+      "_id": "note-market-research-en",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "4d1bed794085",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "87400a303ab0",
+              "_type": "span",
+              "marks": [],
+              "text": "Definition"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "8fefcca87959",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "86c9a52a8839",
+              "_type": "span",
+              "marks": [],
+              "text": "Market research is the practice of reducing uncertainty about users, demand, channels, alternatives, and willingness to pay."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "97bb06f6b0de",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1742247576bd",
+              "_type": "span",
+              "marks": [],
+              "text": "Overview"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "9a4dfc7e4ffd",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bec8666bc3d3",
+              "_type": "span",
+              "marks": [],
+              "text": "Good research does not try to look impressive. It tries to improve decisions. The useful output is a sharper view of who the user is, what they already do, what they compare against, and where distribution might actually work."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "fdf80d0c846b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b820acb63f6f",
+              "_type": "span",
+              "marks": [],
+              "text": "Principles"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "945a67f2e686",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3cb783267d36",
+              "_type": "span",
+              "marks": [],
+              "text": "Start with a decision the research should improve."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "355a49307567",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "44b668990e81",
+              "_type": "span",
+              "marks": [],
+              "text": "Separate user language from founder language."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "2467f59b8b54",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3da252afdec4",
+              "_type": "span",
+              "marks": [],
+              "text": "Look for existing behavior before asking for stated preference."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "94b902e2861c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "17adb1e77ef7",
+              "_type": "span",
+              "marks": [],
+              "text": "Compare alternatives, not just direct competitors."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1207f47ca0fc",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "cf2c1eb5bffd",
+              "_type": "span",
+              "marks": [],
+              "text": "Turn findings into content, product, and distribution experiments."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a0de703b2f17",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c257503fe425",
+              "_type": "span",
+              "marks": [],
+              "text": "Checklist"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0f694bd26319",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0e2e809f2950",
+              "_type": "span",
+              "marks": [],
+              "text": "Define the target user and the decision to make."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "6711898c1595",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "800475dcd90d",
+              "_type": "span",
+              "marks": [],
+              "text": "Collect search queries, communities, reviews, competitor pages, and sales notes."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "6a0f41644c9d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "dd87e44dbd5f",
+              "_type": "span",
+              "marks": [],
+              "text": "Extract repeated pains, desired outcomes, objections, and buying triggers."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "2f3825b19e72",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "61073f3b9ee2",
+              "_type": "span",
+              "marks": [],
+              "text": "Map alternatives users already choose."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "197a5f3faf8c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ecf93880aa06",
+              "_type": "span",
+              "marks": [],
+              "text": "Convert the research into pages, experiments, and product changes."
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "9c17637454a8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "37b2d29acefe",
+              "_type": "span",
+              "marks": [],
+              "text": "Examples"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "855524e386fc",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "dcc30bbb3e22",
+              "_type": "span",
+              "marks": [],
+              "text": "Using competitor pages to identify missing comparison content."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c05a72743a84",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "82693b56d00c",
+              "_type": "span",
+              "marks": [],
+              "text": "Using community discussions to discover the language users use for a problem."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "9f4e5abcde18",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "a1566883fc01",
+              "_type": "span",
+              "marks": [],
+              "text": "Using sales objections to write FAQ sections that also help search visibility."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "994b93b3af10",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "65334de02bb9",
+              "_type": "span",
+              "marks": [],
+              "text": "Next steps"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "a56c798cff68",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9b7505bb92dc",
+              "_type": "span",
+              "marks": [],
+              "text": "Add research templates for competitor scans, user language maps, and SEO/GEO content briefs."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "market-research-en-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "cc64d578a2b0",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "186966a7ea4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When it changes a decision: what to build, who to serve, what to say, or where to distribute."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "When is market research useful?"
+        },
+        {
+          "_key": "market-research-en-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "b6b4d62f3c69",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "4883fc71d9ce",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Repeated user questions become pages. Objections become FAQ. Comparisons become structured explainers."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "How does research become SEO content?"
+        }
+      ],
+      "featured": false,
+      "language": "en",
+      "publishedAt": "2026-07-12T23:57:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "Research patterns for products, channels, competitors, and user demand.",
+        "noIndex": false,
+        "title": "Market research"
+      },
+      "slug": "market-research",
+      "summary": "Research patterns for products, channels, competitors, and user demand.",
+      "tags": [
+        "market research"
+      ],
+      "title": "Market research",
+      "translationKey": "market-research"
+    },
+    {
+      "_id": "note-market-research-zh",
+      "_type": "note",
+      "content": [
+        {
+          "_key": "e0244035e2b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1cae3a63f9fc",
+              "_type": "span",
+              "marks": [],
+              "text": "定义"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "95588fc6a8c0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "37ccfb0d4860",
+              "_type": "span",
+              "marks": [],
+              "text": "市场研究，是降低用户、需求、渠道、替代方案和付费意愿不确定性的实践。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3bede950af23",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c42297bee2c6",
+              "_type": "span",
+              "marks": [],
+              "text": "概览"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "726907eb6fdb",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "666d7884e782",
+              "_type": "span",
+              "marks": [],
+              "text": "好的研究不是为了显得专业，而是为了改善决策。有用产出是更清楚地知道用户是谁、他们现在怎么做、拿你和谁比较，以及哪里可能真的有分发机会。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c599b37d4c8e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "85c0baf6f3bb",
+              "_type": "span",
+              "marks": [],
+              "text": "原则"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "b4e278da52f3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ade12b1623d1",
+              "_type": "span",
+              "marks": [],
+              "text": "从一个需要改善的决策开始。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a7ffbad8d33c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f995133c75e2",
+              "_type": "span",
+              "marks": [],
+              "text": "区分用户语言和创始人语言。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "94d696c3443d",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "85e5f74c4264",
+              "_type": "span",
+              "marks": [],
+              "text": "先看已有行为，再问口头偏好。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "b7ebee624607",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9b046cd5f6d5",
+              "_type": "span",
+              "marks": [],
+              "text": "比较替代方案，而不只是直接竞品。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "3b55d6988b68",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "443bce916b77",
+              "_type": "span",
+              "marks": [],
+              "text": "把发现转成内容、产品和分发实验。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "72610ea1c6a2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9ff1af6203d1",
+              "_type": "span",
+              "marks": [],
+              "text": "检查清单"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "37615d003d14",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "30c32489c8c3",
+              "_type": "span",
+              "marks": [],
+              "text": "定义目标用户和要做的决策。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "e8a9abb4fe86",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "3b12f9134ba8",
+              "_type": "span",
+              "marks": [],
+              "text": "收集搜索词、社区讨论、评论、竞品页面和销售记录。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "f9ef820f81b5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "711718913704",
+              "_type": "span",
+              "marks": [],
+              "text": "提取重复痛点、期望结果、反对意见和购买触发点。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0e0dc9dc8499",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "492639785b7e",
+              "_type": "span",
+              "marks": [],
+              "text": "画出用户已经在选择的替代方案。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "88236efcbdaa",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "36a71c4f7527",
+              "_type": "span",
+              "marks": [],
+              "text": "把研究转成页面、实验和产品改动。"
+            }
+          ],
+          "level": 1,
+          "listItem": "number",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "a5be3d0f6dc7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "d09c5a41581f",
+              "_type": "span",
+              "marks": [],
+              "text": "示例"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "ce589d5b310e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "1f1e938dbe5a",
+              "_type": "span",
+              "marks": [],
+              "text": "用竞品页面发现缺失的对比内容。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "c09d9e76be46",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "a958ebe0bd81",
+              "_type": "span",
+              "marks": [],
+              "text": "用社区讨论发现用户描述问题时真正使用的语言。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "fc81b24668d4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "9c078bd67d3d",
+              "_type": "span",
+              "marks": [],
+              "text": "用销售异议写 FAQ，同时提升搜索可见性。"
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "1328f35dd9e6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ddbe198c49fe",
+              "_type": "span",
+              "marks": [],
+              "text": "下一步"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "285318b8d61e",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "417645b34f22",
+              "_type": "span",
+              "marks": [],
+              "text": "补充竞品扫描、用户语言地图和 SEO/GEO 内容 brief 的研究模板。"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "faq": [
+        {
+          "_key": "market-research-zh-faq-0",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "3302a680b840",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "2b9fa3fd0366",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "当它能改变决策时：做什么、服务谁、怎么说、在哪里分发。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "市场研究什么时候有用？"
+        },
+        {
+          "_key": "market-research-zh-faq-1",
+          "_type": "faqItem",
+          "answer": [
+            {
+              "_key": "ffedc3db8c09",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "2d02e4651081",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "重复用户问题变成页面，异议变成 FAQ，对比变成结构化解释页。"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "question": "研究如何变成 SEO 内容？"
+        }
+      ],
+      "featured": false,
+      "language": "zh",
+      "publishedAt": "2026-07-12T23:57:00.000Z",
+      "seo": {
+        "_type": "seo",
+        "description": "围绕产品、渠道、竞品和用户需求的研究方法。",
+        "noIndex": false,
+        "title": "市场研究"
+      },
+      "slug": "market-research",
+      "summary": "围绕产品、渠道、竞品和用户需求的研究方法。",
+      "tags": [
+        "市场研究"
+      ],
+      "title": "市场研究",
+      "translationKey": "market-research"
+    }
+  ],
+  "projectId": "7lstorz2",
+  "siteDocuments": [
+    {
+      "_id": "aboutPage-en",
+      "_type": "aboutPage",
+      "contact": "I founded Multiple Engine to provide a clear company structure for cooperation, delivery, and long-term maintenance around this work.",
+      "contactTitle": "Company relationship",
+      "defaultShareImage": null,
+      "description": "About Jeason Zhang, founder of Multiple Engine and a software engineer building practical AI, desktop, browser, data, and workflow systems.",
+      "experience": [
+        "About eight years of software engineering and product delivery experience.",
+        "Early work in Java HMI and quadruped robotics, followed by Qt interface development.",
+        "Hands-on work across JavaScript, HTML, CSS, C/C++, Python crawling, and data processing.",
+        "Current focus on enterprise AI implementation, GEO, and tools that connect models to real workflows."
+      ],
+      "experienceTitle": "Engineering path",
+      "eyebrow": "Author and founder",
+      "focus": [
+        "Mac OS desktop tools for capture, transcription, and local workflows.",
+        "Browser extensions and lightweight interfaces that keep context close to the page.",
+        "AI-assisted publishing and evidence systems for SEO and GEO.",
+        "Small company delivery systems that join code, documentation, and operating evidence."
+      ],
+      "focusTitle": "Current focus",
+      "headline": "I build small systems that keep useful work from disappearing.",
+      "headlineLines": [
+        "I build small systems",
+        "that keep useful work",
+        "from disappearing."
+      ],
+      "language": "en",
+      "lede": "I use this site as a public workbench for software products, enterprise AI workflows, GEO, desktop automation, and research. The common thread is simple: capture real work, make it inspectable, then turn it into a tool or durable operating surface.",
+      "slug": null,
+      "title": "About",
+      "work": [
+        "Build the smallest working loop first, then document what the loop teaches.",
+        "Prefer tools that expose state clearly: files, routes, transcripts, diffs, and dashboards.",
+        "Treat writing as part of the product surface, not as a separate marketing layer.",
+        "Keep project pages honest by tying them to real repositories, notes, and changelogs."
+      ],
+      "workTitle": "How I work"
+    },
+    {
+      "_id": "aboutPage-zh",
+      "_type": "aboutPage",
+      "contact": "我创办倍数引擎，为这些工作提供清晰的合作、交付和长期维护主体。",
+      "contactTitle": "与公司的关系",
+      "defaultShareImage": null,
+      "description": "关于 Jeason Zhang：倍数引擎创始人，构建实用 AI、桌面端、浏览器、数据与工作流系统的软件工程师。",
+      "experience": [
+        "约八年软件工程与产品交付经验。",
+        "早期从事 Java 人机交互并参与四足机器人项目，随后使用 Qt 开发界面软件。",
+        "持续实践 JavaScript、HTML、CSS、C/C++、Python 爬虫与数据处理。",
+        "当前聚焦企业 AI 落地、GEO，以及把模型接入真实工作流的工具。"
+      ],
+      "experienceTitle": "工程经历",
+      "eyebrow": "作者与创始人",
+      "focus": [
+        "用于捕捉、转写和本地工作流的 Mac OS 桌面工具。",
+        "让上下文留在页面里的浏览器扩展和轻量界面。",
+        "面向 SEO 与 GEO 的 AI 辅助发布和证据系统。",
+        "把代码、文档和运行证据连接起来的小型公司交付系统。"
+      ],
+      "focusTitle": "当前关注",
+      "headline": "我做一些小系统，让有价值的工作不再消失。",
+      "headlineLines": [
+        "我做一些小系统，",
+        "让有价值的工作",
+        "不再消失。"
+      ],
+      "language": "zh",
+      "lede": "我把这个网站当作公开工作台，用来整理软件产品、企业 AI 工作流、GEO、桌面自动化和研究。背后的共同线索很简单：捕捉真实工作，让它可检查，再把它变成工具或可以长期运行的工作面。",
+      "slug": null,
+      "title": "关于作者",
+      "work": [
+        "先做最小可用闭环，再记录这个闭环教会了什么。",
+        "偏好能清楚暴露状态的工具：文件、路径、转写稿、diff 和 dashboard。",
+        "把写作当作产品界面的一部分，而不是单独的营销层。",
+        "让项目页尽量诚实：连接真实仓库、笔记和 changelog。"
+      ],
+      "workTitle": "我的工作方式"
+    },
+    {
+      "_id": "companyPage-en",
+      "_type": "companyPage",
+      "artworkAlt": "A Shenzhen engineering scene with modern buildings, servers, and versioned delivery layers",
+      "artworkCaption": "A Shenzhen engineering base with a stable delivery path",
+      "ctaLabel": "Contact us",
+      "ctaText": "Start with the workflow, constraint, or outcome you need to make reliable.",
+      "ctaTitle": "Bring us a real operating problem.",
+      "defaultShareImage": null,
+      "description": "Multiple Engine is the company behind Jeason Zhang's software, enterprise AI, GEO, automation, and deployment work.",
+      "eyebrow": "Multiple Engine",
+      "fields": [
+        "Software and product development across web, desktop, browser, and backend surfaces.",
+        "Enterprise AI applications that connect models to real business workflows.",
+        "GEO and AI search visibility based on factual, structured content assets.",
+        "Workflow automation, data processing, deployment, and operating documentation."
+      ],
+      "fieldsTitle": "Fields of work",
+      "headline": "A small software company built around inspectable work.",
+      "headlineLines": [
+        "A small software company",
+        "built around",
+        "inspectable work."
+      ],
+      "language": "en",
+      "lede": "Shenzhen Multiple Engine Software Technology Co., Ltd. is the delivery and cooperation entity behind this site. We turn defined business problems into software, AI workflows, and durable operating systems.",
+      "mission": "Use technology to amplify effective work and become a dependable partner for practical software and AI implementation.",
+      "missionTitle": "Mission",
+      "principles": [
+        "Define the problem and acceptance conditions before expanding scope.",
+        "Build the smallest useful loop and verify it in a real operating environment.",
+        "Keep state visible through files, routes, data, logs, and clear handoff documents.",
+        "Prefer maintainable systems and honest evidence over inflated capability claims."
+      ],
+      "principlesTitle": "Engineering principles",
+      "relationship": "Jeason Zhang is the founder and primary builder. His public projects show the engineering approach; Multiple Engine provides the formal company structure for client cooperation, delivery, and long-term maintenance.",
+      "relationshipTitle": "How the company and Jeason connect",
+      "slug": null,
+      "title": "Company"
+    },
+    {
+      "_id": "companyPage-zh",
+      "_type": "companyPage",
+      "artworkAlt": "深圳城市建筑、服务器和版本化交付层组成的工程场景",
+      "artworkCaption": "深圳的工程现场与稳定交付路径",
+      "ctaLabel": "联系合作",
+      "ctaText": "可以从需要稳定下来的流程、约束或结果开始。",
+      "ctaTitle": "把一个真实的业务问题交给我们。",
+      "defaultShareImage": null,
+      "description": "倍数引擎是 Jeason Zhang 开展软件研发、企业 AI 落地、GEO、自动化和部署服务的公司主体。",
+      "eyebrow": "倍数引擎",
+      "fields": [
+        "覆盖 Web、桌面端、浏览器扩展和后端服务的软件与产品研发。",
+        "把模型能力接入真实业务流程的企业 AI 应用与落地。",
+        "围绕事实资产和结构化内容开展 GEO 与 AI 搜索可见度建设。",
+        "工作流自动化、数据处理、云端部署和可维护的交付文档。"
+      ],
+      "fieldsTitle": "业务领域",
+      "headline": "一家围绕真实问题和可检查交付建立的软件公司。",
+      "headlineLines": [
+        "一家围绕真实问题",
+        "和可检查交付建立的",
+        "软件公司。"
+      ],
+      "language": "zh",
+      "lede": "深圳市倍数引擎软件技术有限责任公司是这个网站背后的合作与交付主体。我们把定义清楚的业务问题推进成软件、AI 工作流和可以长期运行的系统。",
+      "mission": "用技术放大有效工作的价值，成为企业软件与 AI 落地过程中值得信赖的合作方。",
+      "missionTitle": "我们的使命",
+      "principles": [
+        "先明确问题和验收条件，再决定是否扩大范围。",
+        "先建立最小可用闭环，再在真实运行环境里验证。",
+        "通过文件、路径、数据、日志和清晰文档让状态可检查。",
+        "优先交付可维护系统和真实证据，不做夸大的能力承诺。"
+      ],
+      "principlesTitle": "工程原则",
+      "relationship": "Jeason Zhang 是倍数引擎创始人和主要构建者。公开项目呈现工程方法，倍数引擎则负责正式合作、项目交付和长期维护。",
+      "relationshipTitle": "公司与 Jeason 的关系",
+      "slug": null,
+      "title": "公司"
+    },
+    {
+      "_id": "contactPage-en",
+      "_type": "contactPage",
+      "addressLabel": "Office",
+      "callAction": "Call now",
+      "callDescription": "Use a short first call to confirm the problem, boundaries, and next step.",
+      "companyLabel": "Company",
+      "cooperationText": "Software delivery, enterprise AI implementation, GEO visibility, automation, data workflows, and cloud deployment are all suitable starting points when the desired result can be made concrete.",
+      "cooperationTitle": "Good starting points",
+      "defaultShareImage": null,
+      "description": "Contact Jeason Zhang and Multiple Engine about software, enterprise AI, GEO, workflow automation, or deployment work.",
+      "eyebrow": "Contact",
+      "headline": "Start with the problem that needs to work reliably.",
+      "headlineLines": [
+        "Start with the problem",
+        "that needs to work reliably."
+      ],
+      "icpLabel": "ICP registration",
+      "language": "en",
+      "lede": "A useful first conversation describes the current workflow, what is failing or too expensive, and what a successful outcome would look like.",
+      "phoneLabel": "Phone",
+      "slug": null,
+      "title": "Contact"
+    },
+    {
+      "_id": "contactPage-zh",
+      "_type": "contactPage",
+      "addressLabel": "办公地址",
+      "callAction": "立即拨打",
+      "callDescription": "先用一次短沟通确认问题、边界和下一步。",
+      "companyLabel": "公司主体",
+      "cooperationText": "软件交付、企业 AI 落地、GEO 可见度、自动化、数据工作流和云端部署都可以成为合作入口，前提是目标能够被说清楚并被验证。",
+      "cooperationTitle": "适合从这些问题开始",
+      "defaultShareImage": null,
+      "description": "联系 Jeason Zhang 与倍数引擎，沟通软件研发、企业 AI 落地、GEO、自动化或部署工作。",
+      "eyebrow": "联系合作",
+      "headline": "从那个必须稳定运行的问题开始。",
+      "headlineLines": [
+        "从那个必须稳定运行的",
+        "问题开始。"
+      ],
+      "icpLabel": "ICP备案",
+      "language": "zh",
+      "lede": "一次有效的初次沟通，应当说明当前流程、哪里正在失效或成本过高，以及什么结果可以被视为成功。",
+      "phoneLabel": "联系电话",
+      "slug": null,
+      "title": "联系合作"
+    },
+    {
+      "_id": "homePage-en",
+      "_type": "homePage",
+      "artworkAlt": "A product-building workbench with a laptop, transcript pages, workflow diagrams, and hardware",
+      "artworkCaption": "Turn rough work into inspectable tools and systems",
+      "companyEyebrow": "Multiple Engine",
+      "companyText": "Shenzhen Multiple Engine Software Technology Co., Ltd. is the cooperation and delivery entity behind this work.",
+      "companyTitle": "Personal accountability, formal company delivery.",
+      "defaultShareImage": null,
+      "description": "Jeason Zhang and Multiple Engine build practical software, enterprise AI workflows, GEO systems, automation, and deployable tools.",
+      "eyebrow": "Jeason Zhang · Founder of Multiple Engine",
+      "headline": "Turn real business problems into working tools and systems.",
+      "headlineLines": [
+        "Turn real business problems",
+        "into working tools",
+        "and systems."
+      ],
+      "identity": "Software engineer · AI product builder · company founder",
+      "language": "en",
+      "lede": "I build software, enterprise AI workflows, GEO systems, and automation around work that needs to become reliable. Multiple Engine is the company that carries cooperation and delivery.",
+      "methodEyebrow": "Working method",
+      "methodSteps": [
+        "Define the real problem and acceptance condition.",
+        "Build the smallest end-to-end loop that can be used.",
+        "Verify it with code, data, and operating evidence.",
+        "Turn the useful path into a maintainable system and handoff."
+      ],
+      "methodTitle": "Make the result inspectable from the first useful loop.",
+      "primaryActionsLabel": "Primary actions",
+      "servicesIntro": "The service is not a slide deck. It is a working loop with visible inputs, outputs, limits, and ownership.",
+      "servicesTitle": "Five ways to move a real workflow forward.",
+      "slug": null,
+      "title": "Jeason Zhang × Multiple Engine"
+    },
+    {
+      "_id": "homePage-zh",
+      "_type": "homePage",
+      "artworkAlt": "由电脑、转写稿、流程图和硬件组成的产品构建工作台",
+      "artworkCaption": "把真实工作变成可以检查的工具与系统",
+      "companyEyebrow": "倍数引擎",
+      "companyText": "深圳市倍数引擎软件技术有限责任公司是这些工作的合作与交付主体。",
+      "companyTitle": "个人负责到底，公司正式承接。",
+      "defaultShareImage": null,
+      "description": "Jeason Zhang 与倍数引擎围绕真实业务问题构建软件、企业 AI 工作流、GEO 系统、自动化和可部署工具。",
+      "eyebrow": "Jeason Zhang · 倍数引擎创始人",
+      "headline": "把真实业务问题，做成可以运行的工具与系统。",
+      "headlineLines": [
+        "把真实业务问题",
+        "做成可以运行的",
+        "工具与系统。"
+      ],
+      "identity": "软件工程师 · AI 产品构建者 · 公司创始人",
+      "language": "zh",
+      "lede": "我围绕那些必须变得可靠的工作，构建软件、企业 AI 工作流、GEO 系统和自动化。倍数引擎负责承接正式合作与交付。",
+      "methodEyebrow": "工作方式",
+      "methodSteps": [
+        "明确真实问题和验收条件。",
+        "完成能够使用的最小端到端闭环。",
+        "用代码、数据和运行证据验证。",
+        "把有效路径沉淀为可维护系统和交付文档。"
+      ],
+      "methodTitle": "从第一个有用闭环开始，让结果可以被检查。",
+      "primaryActionsLabel": "主要操作",
+      "servicesIntro": "服务不是一份演示文稿，而是输入、输出、边界和责任都清楚的可运行闭环。",
+      "servicesTitle": "用五种能力，把一个真实流程向前推进。",
+      "slug": null,
+      "title": "Jeason Zhang × 倍数引擎"
+    },
+    {
+      "_id": "notesPage-en",
+      "_type": "notesPage",
+      "defaultShareImage": null,
+      "description": "A directory of reusable notes on AI workflows, desktop automation, creator tools, and market research.",
+      "eyebrow": "Notes",
+      "language": "en",
+      "slug": null,
+      "title": "All notes"
+    },
+    {
+      "_id": "notesPage-zh",
+      "_type": "notesPage",
+      "defaultShareImage": null,
+      "description": "关于 AI 工作流、桌面自动化、创作者工具和市场研究的可复用笔记目录。",
+      "eyebrow": "笔记",
+      "language": "zh",
+      "slug": null,
+      "title": "所有笔记"
+    },
+    {
+      "_id": "project-capty-en",
+      "_type": "project",
+      "audience": "Founders, researchers, operators, and builders who think out loud and need their spoken context to become searchable project material.",
+      "defaultShareImage": null,
+      "definition": "Capty is a local-first Mac OS tool for recording, transcribing, organizing, and reusing spoken work.",
+      "faq": [
+        {
+          "_key": "82c0f9773548",
+          "answer": "It starts with transcription, but the long-term value is workflow: capturing spoken context and turning it into reusable project material.",
+          "question": "Is Capty a transcription app or a workflow app?"
+        },
+        {
+          "_key": "58d1c1168bd3",
+          "answer": "It is one of the concrete products behind the site's themes: desktop AI, capture loops, and practical automation.",
+          "question": "Why is this on a personal site?"
+        }
+      ],
+      "featured": true,
+      "kind": "Mac OS tool",
+      "language": "en",
+      "next": "Add product screenshots, release notes, short demos, and specific examples of transcript-to-document workflows.",
+      "order": 0,
+      "outcomes": [
+        "Structured transcripts that can be reused in notes, specs, briefs, and follow-up tasks.",
+        "A repeatable capture loop for meetings, solo thinking, interviews, and product research.",
+        "A Mac OS product surface for experimenting with speech-to-text and local workflow automation."
+      ],
+      "overview": "Capty turns voice capture into a working surface. Instead of treating transcripts as one-off files, it keeps recordings close to projects, notes, and follow-up actions so the material can be reused after the meeting, call, or thinking session ends.",
+      "slug": "capty",
+      "summary": "A Mac-first capture workspace for turning speech and desktop context into reusable notes.",
+      "title": "Capty",
+      "translationKey": "capty",
+      "why": "A lot of valuable work happens before it becomes a document: calls, rough explanations, decisions, and half-formed product thinking. Capty gives that raw material a place to land, which makes it a strong product story for personal AI, desktop workflows, and knowledge capture.",
+      "workflow": [
+        "Capture audio from a meeting, file, or thinking session.",
+        "Transcribe and preserve useful context instead of losing it in a raw recording.",
+        "Turn the transcript into notes, action items, or source material for a project page.",
+        "Review the output and feed the useful pieces back into the next workflow."
+      ]
+    },
+    {
+      "_id": "project-capty-zh",
+      "_type": "project",
+      "audience": "适合经常通过说话思考的创业者、研究者、运营者和产品构建者，把语音上下文沉淀成可搜索的项目素材。",
+      "defaultShareImage": null,
+      "definition": "Capty 是一个本地优先的 Mac OS 工具，用来录音、转写、整理并复用口头工作内容。",
+      "faq": [
+        {
+          "_key": "b05e0b2408d8",
+          "answer": "它从转写开始，但长期价值是工作流：把口头上下文捕捉下来，并转成可复用的项目材料。",
+          "question": "Capty 是转写工具还是工作流工具？"
+        },
+        {
+          "_key": "524f3bbbe168",
+          "answer": "它是这个网站主题背后的真实产品之一：桌面 AI、捕捉循环和实用自动化。",
+          "question": "为什么这个项目放在个人网站上？"
+        }
+      ],
+      "featured": true,
+      "kind": "Mac OS 工具",
+      "language": "zh",
+      "next": "补充产品截图、版本记录、短演示，以及从转写稿到文档的具体案例。",
+      "order": 0,
+      "outcomes": [
+        "可复用到笔记、规格文档、简报和待办里的结构化转写稿。",
+        "适用于会议、独立思考、访谈和产品研究的固定捕捉循环。",
+        "一个 Mac OS 产品界面，用来实验语音转文字和本地自动化。"
+      ],
+      "overview": "Capty 把语音捕捉变成一个工作面。它不把转写稿当成一次性文件，而是让录音、项目、笔记和后续行动靠在一起，让会议、访谈或独立思考结束后的素材还能继续被使用。",
+      "slug": "capty",
+      "summary": "一个 Mac 优先的捕捉工作台，把语音和桌面上下文转成可复用的笔记。",
+      "title": "Capty",
+      "translationKey": "capty",
+      "why": "很多重要工作发生在正式文档之前：会议、解释、决策、产品想法和访谈片段。Capty 给这些原始材料一个落点，所以它很适合作为个人 AI、桌面工作流和知识捕捉的产品案例。",
+      "workflow": [
+        "从会议、音频文件或独立思考中捕捉声音。",
+        "转写并保留有价值的上下文，而不是把内容留在原始录音里。",
+        "把转写稿整理成笔记、行动项或项目页面的素材。",
+        "复盘输出，把有用片段喂回下一个工作流。"
+      ]
+    },
+    {
+      "_id": "project-twitter-translator-en",
+      "_type": "project",
+      "audience": "Researchers, investors, builders, and multilingual readers who use X as a source of market, technical, or creator signal.",
+      "defaultShareImage": null,
+      "definition": "Twitter Translator is a Manifest V3 browser extension that adds translation controls directly inside X timelines, detail pages, and article pages.",
+      "faq": [
+        {
+          "_key": "cc031da352ac",
+          "answer": "The project is designed around user-provided OpenAI-compatible LLM settings, so translation does not need a separate product backend.",
+          "question": "Does Twitter Translator require a hosted backend?"
+        },
+        {
+          "_key": "72a7aab1e3ab",
+          "answer": "Inline translation keeps the original post, author, thread, and surrounding context visible while reading.",
+          "question": "Why translate inside X instead of using a separate app?"
+        }
+      ],
+      "featured": true,
+      "kind": "browser extension",
+      "language": "en",
+      "next": "Add screenshots, setup instructions, privacy notes, and examples for common multilingual research workflows.",
+      "order": 1,
+      "outcomes": [
+        "Inline translation buttons for timeline posts and detail pages.",
+        "Automatic translation support for X Articles and longer reading surfaces.",
+        "A user-controlled provider setup so translation can run through the user's preferred LLM endpoint."
+      ],
+      "overview": "Twitter Translator keeps translation close to the reading surface. Instead of copying posts into a separate tool, it injects a translation action where the user is already reading and sends the content to an OpenAI-compatible provider configured by the user.",
+      "slug": "twitter-translator",
+      "summary": "A Chrome extension for translating X posts and long articles with your own LLM provider.",
+      "title": "Twitter Translator",
+      "translationKey": "twitter-translator",
+      "why": "X is noisy, fast, and multilingual. A practical translator helps preserve context while scanning foreign-language posts, following overseas builders, or reading long-form X articles without breaking flow.",
+      "workflow": [
+        "Open X and read the timeline as usual.",
+        "Click Translate under a post or open a detail page with translation enabled.",
+        "Send the content to the configured LLM provider.",
+        "Read the translated result inline without leaving the original context."
+      ]
+    },
+    {
+      "_id": "project-twitter-translator-zh",
+      "_type": "project",
+      "audience": "适合把 X 当作市场、技术或创作者信号来源的研究者、投资者、构建者和多语言读者。",
+      "defaultShareImage": null,
+      "definition": "Twitter Translator 是一个 Manifest V3 浏览器扩展，把翻译按钮直接加到 X 的时间线、详情页和文章页里。",
+      "faq": [
+        {
+          "_key": "29d1cb30f31b",
+          "answer": "项目围绕用户自有的 OpenAI 兼容 LLM 配置设计，因此翻译本身不需要单独的产品后端。",
+          "question": "Twitter Translator 需要独立后端吗？"
+        },
+        {
+          "_key": "d548f81874d5",
+          "answer": "内联翻译能让原推文、作者、线程和周围上下文保持可见，阅读时不需要来回切换。",
+          "question": "为什么不直接用独立翻译 App？"
+        }
+      ],
+      "featured": true,
+      "kind": "浏览器扩展",
+      "language": "zh",
+      "next": "补充截图、设置说明、隐私说明，以及常见多语言研究场景示例。",
+      "order": 1,
+      "outcomes": [
+        "时间线和详情页里的内联翻译按钮。",
+        "对 X Articles 和长阅读页面的自动翻译支持。",
+        "用户可控的 LLM provider 设置，可以接入自己的模型服务。"
+      ],
+      "overview": "Twitter Translator 把翻译留在阅读现场。用户不用把推文复制到另一个工具里，而是在正在阅读的位置直接触发翻译，并把内容发送到自己配置的 OpenAI 兼容服务。",
+      "slug": "twitter-translator",
+      "summary": "一个用自有 LLM 服务翻译 X 推文和长文章的 Chrome 扩展。",
+      "title": "Twitter Translator",
+      "translationKey": "twitter-translator",
+      "why": "X 信息快、噪声大、语言混杂。一个贴在原页面里的翻译工具，可以在阅读海外开发者、市场讨论和长文时保留上下文，不打断信息流。",
+      "workflow": [
+        "照常打开 X 并阅读时间线。",
+        "在推文下方点击 Translate，或进入详情页触发翻译。",
+        "把内容发送到已配置的 LLM provider。",
+        "在原始上下文旁边读取翻译结果。"
+      ]
+    },
+    {
+      "_id": "project-routescope-en",
+      "_type": "project",
+      "audience": "Power users, developers, and agent-heavy operators who move between scripts, browser sessions, local files, and project tasks.",
+      "defaultShareImage": null,
+      "definition": "Routescope is a desktop interface concept for making local workflows visible, navigable, and easier to repeat.",
+      "faq": [
+        {
+          "_key": "b30b8f9b4b5b",
+          "answer": "Not exactly. It is closer to a workflow inspection surface: what happened, what changed, and how to repeat or improve the route.",
+          "question": "Is Routescope a task manager?"
+        },
+        {
+          "_key": "7c086e58744b",
+          "answer": "The desktop is where many useful tools meet: files, terminals, browsers, local apps, and AI agents. That makes it the natural surface for workflow visibility.",
+          "question": "Why focus on desktop workflows?"
+        }
+      ],
+      "featured": true,
+      "kind": "desktop app",
+      "language": "en",
+      "next": "Document the route model, add prototype screenshots, and publish examples from real local workflows.",
+      "order": 2,
+      "outcomes": [
+        "A map of the steps, files, commands, and decisions behind a local workflow.",
+        "A way to resume repeated tasks without reconstructing context from memory.",
+        "A product direction for bridging agent output and human operational control."
+      ],
+      "overview": "Routescope treats a workflow as a route: a sequence of context, tools, decisions, and outputs. The goal is to make repeated work easier to inspect, resume, and improve instead of leaving it scattered across terminal history and browser tabs.",
+      "slug": "routescope",
+      "summary": "A route-focused interface for inspecting, organizing, and shipping local workflows.",
+      "title": "Routescope",
+      "translationKey": "routescope",
+      "why": "AI-assisted work often fails at the handoff layer. The model may produce output, but the human still needs to understand what happened, where files changed, and what should happen next. Routescope explores the interface for that layer.",
+      "workflow": [
+        "Start with a recurring task such as publishing, research, QA, or content cleanup.",
+        "Represent the task as a route with inputs, tools, checkpoints, and outputs.",
+        "Inspect each step for friction, missing context, or manual repetition.",
+        "Turn the stable parts into templates, scripts, or agent instructions."
+      ]
+    },
+    {
+      "_id": "project-routescope-zh",
+      "_type": "project",
+      "audience": "适合在脚本、浏览器、本地文件和项目任务之间频繁切换的高级用户、开发者和智能体重度使用者。",
+      "defaultShareImage": null,
+      "definition": "Routescope 是一个桌面界面概念，让本地工作流变得可见、可导航、可复用。",
+      "faq": [
+        {
+          "_key": "3bfe4ede3910",
+          "answer": "不完全是。它更像一个工作流检查界面：发生了什么、改了什么、如何复用或改进这条路线。",
+          "question": "Routescope 是任务管理器吗？"
+        },
+        {
+          "_key": "78359a25ab24",
+          "answer": "桌面是文件、终端、浏览器、本地应用和 AI 智能体交汇的地方，因此天然适合做工作流可见性。",
+          "question": "为什么关注桌面工作流？"
+        }
+      ],
+      "featured": true,
+      "kind": "桌面应用",
+      "language": "zh",
+      "next": "补充路线模型、原型截图，并发布来自真实本地工作流的例子。",
+      "order": 2,
+      "outcomes": [
+        "一张记录本地工作流步骤、文件、命令和决策的路线图。",
+        "一种不用靠记忆重建上下文就能恢复重复任务的方式。",
+        "一个连接智能体输出和人类操作控制的产品方向。"
+      ],
+      "overview": "Routescope 把工作流看成一条路线：由上下文、工具、决策和产出组成。目标是让重复工作更容易检查、恢复和改进，而不是散落在终端历史和浏览器标签页里。",
+      "slug": "routescope",
+      "summary": "围绕路径、流程和本地工作台构建的检查与组织界面。",
+      "title": "Routescope",
+      "translationKey": "routescope",
+      "why": "AI 辅助工作经常卡在交接层。模型可能产出了结果，但人仍然要理解发生了什么、哪些文件变了、下一步该做什么。Routescope 探索的就是这个界面层。",
+      "workflow": [
+        "从发布、研究、QA 或内容清理这类重复任务开始。",
+        "把任务表示成包含输入、工具、检查点和输出的路线。",
+        "检查每一步的摩擦、缺失上下文和手工重复。",
+        "把稳定部分沉淀成模板、脚本或智能体指令。"
+      ]
+    },
+    {
+      "_id": "project-apple-price-en",
+      "_type": "project",
+      "audience": "Travelers, Apple buyers, resellers, and anyone deciding where a product is actually cheaper after exchange rates.",
+      "defaultShareImage": null,
+      "definition": "Apple Price compares official Apple Store prices across countries and converts them into a common currency for quick purchase decisions.",
+      "faq": [
+        {
+          "_key": "e5db681c5f9d",
+          "answer": "The current project is best treated as a price comparison baseline. Taxes, duties, and local promotions should be documented per country.",
+          "question": "Does Apple Price include taxes and import duties?"
+        },
+        {
+          "_key": "ad039a489a97",
+          "answer": "It turns a messy manual check across many Apple regional stores into one repeatable comparison workflow.",
+          "question": "Why is this useful?"
+        }
+      ],
+      "featured": false,
+      "kind": "price tool",
+      "language": "en",
+      "next": "Add product history, tax notes, update timestamps, and country-specific buying caveats.",
+      "order": 3,
+      "outcomes": [
+        "A searchable comparison of Apple product prices across regions.",
+        "Currency-normalized prices for easier country-by-country decisions.",
+        "A small data product that can grow into alerts, history, and buying guides."
+      ],
+      "overview": "Apple Price gathers product prices from multiple Apple regional stores and normalizes them through exchange rates. It turns scattered country pages into a simple comparison surface.",
+      "slug": "apple-price",
+      "summary": "A cross-country Apple product price comparison tool with currency conversion.",
+      "title": "Apple Price",
+      "translationKey": "apple-price",
+      "why": "Apple prices vary by region, tax, currency, and release timing. A lightweight comparison tool makes the real purchase difference easier to see before buying or asking someone to bring a device back.",
+      "workflow": [
+        "Collect official Apple Store prices from target countries.",
+        "Normalize product names and variants.",
+        "Convert prices with current exchange-rate data.",
+        "Present the results in a simple table for comparison."
+      ]
+    },
+    {
+      "_id": "project-apple-price-zh",
+      "_type": "project",
+      "audience": "适合旅行者、Apple 买家、代购/转售者，以及需要根据汇率判断购买地的人。",
+      "defaultShareImage": null,
+      "definition": "Apple Price 比较不同国家 Apple Store 官方价格，并换算到统一货币，帮助快速判断哪里买更划算。",
+      "faq": [
+        {
+          "_key": "50de9fe60f87",
+          "answer": "当前更适合作为价格比较基线。税费、关税和本地促销需要按国家单独补充说明。",
+          "question": "Apple Price 包含税费和关税吗？"
+        },
+        {
+          "_key": "f6fdaaf0c5d3",
+          "answer": "它把手动打开多个 Apple 区域官网比价的流程，变成一个可重复的比较工作流。",
+          "question": "这个工具有什么用？"
+        }
+      ],
+      "featured": false,
+      "kind": "价格工具",
+      "language": "zh",
+      "next": "补充价格历史、税费说明、更新时间和各国购买注意事项。",
+      "order": 3,
+      "outcomes": [
+        "跨地区 Apple 产品价格的可搜索比较表。",
+        "经过汇率归一化的价格，方便按国家做购买决策。",
+        "一个可以继续扩展到价格提醒、历史记录和购买指南的小型数据产品。"
+      ],
+      "overview": "Apple Price 从多个国家和地区的 Apple 官网收集产品价格，再通过汇率归一化展示。它把分散的区域页面变成一个简单的比较界面。",
+      "slug": "apple-price",
+      "summary": "一个带汇率换算的 Apple 产品跨国家价格比较工具。",
+      "title": "Apple Price",
+      "translationKey": "apple-price",
+      "why": "Apple 产品价格会受地区、税费、汇率和发布时间影响。轻量的比较工具能让真实购买差异更容易被看见。",
+      "workflow": [
+        "收集目标国家 Apple Store 官方价格。",
+        "归一化产品名称和规格型号。",
+        "用当前汇率换算价格。",
+        "用简单表格展示比较结果。"
+      ]
+    },
+    {
+      "_id": "project-usd-liquidity-en",
+      "_type": "project",
+      "audience": "Macro investors, crypto market watchers, and builders who want a simple view of dollar liquidity conditions.",
+      "defaultShareImage": null,
+      "definition": "USD Liquidity is a finance dashboard that tracks monetary liquidity signals such as Fed assets, Treasury cash, and reverse repo balances.",
+      "faq": [
+        {
+          "_key": "7efa7ca845fd",
+          "answer": "It is context, not a trading system. The dashboard helps make liquidity conditions visible, but decisions need broader analysis.",
+          "question": "Is USD Liquidity an investment signal?"
+        },
+        {
+          "_key": "af5bad3766f1",
+          "answer": "A personal dashboard keeps the exact indicators and formulas you care about in one stable place.",
+          "question": "Why make a personal dashboard?"
+        }
+      ],
+      "featured": false,
+      "kind": "finance dashboard",
+      "language": "en",
+      "next": "Add source citations, update dates, explanatory notes, and a short methodology page.",
+      "order": 4,
+      "outcomes": [
+        "A consolidated view of key dollar liquidity indicators.",
+        "A reusable charting surface for macro notes and market observations.",
+        "A foundation for adding annotations, source links, and update cadence."
+      ],
+      "overview": "USD Liquidity turns several public macro indicators into a focused dashboard. The goal is not to predict markets mechanically, but to keep liquidity context visible when reading risk assets and policy changes.",
+      "slug": "usd-liquidity",
+      "summary": "A personal dashboard for tracking US dollar liquidity indicators.",
+      "title": "USD Liquidity",
+      "translationKey": "usd-liquidity",
+      "why": "Dollar liquidity affects risk appetite, market stress, and the background conditions for many asset classes. A personal dashboard makes the signal easier to revisit than scattered data links.",
+      "workflow": [
+        "Pull public macro indicator data.",
+        "Compute or display liquidity-related series.",
+        "Render the dashboard for quick reading.",
+        "Use the chart context when writing market notes."
+      ]
+    },
+    {
+      "_id": "project-usd-liquidity-zh",
+      "_type": "project",
+      "audience": "适合宏观投资者、加密市场观察者，以及需要快速理解美元流动性背景的人。",
+      "defaultShareImage": null,
+      "definition": "USD Liquidity 是一个金融仪表盘，用来追踪 Fed 资产、TGA、逆回购等美元流动性相关指标。",
+      "faq": [
+        {
+          "_key": "4c220cb46c41",
+          "answer": "它是上下文，不是交易系统。仪表盘帮助看见流动性环境，但决策仍需要更完整的分析。",
+          "question": "USD Liquidity 是投资信号吗？"
+        },
+        {
+          "_key": "7cd62877c917",
+          "answer": "个人 dashboard 可以把你关心的指标和公式固定在一个稳定位置。",
+          "question": "为什么要做个人 dashboard？"
+        }
+      ],
+      "featured": false,
+      "kind": "金融仪表盘",
+      "language": "zh",
+      "next": "补充数据来源、更新时间、解释说明和简短方法论页面。",
+      "order": 4,
+      "outcomes": [
+        "关键美元流动性指标的集中视图。",
+        "可复用到宏观笔记和市场观察里的图表界面。",
+        "继续添加注释、来源链接和更新时间的基础。"
+      ],
+      "overview": "USD Liquidity 把多个公开宏观指标整理成一个聚焦 dashboard。它不是机械预测市场，而是在阅读风险资产和政策变化时保留流动性背景。",
+      "slug": "usd-liquidity",
+      "summary": "一个追踪美元流动性指标的个人 dashboard。",
+      "title": "USD Liquidity",
+      "translationKey": "usd-liquidity",
+      "why": "美元流动性会影响风险偏好、市场压力和多类资产的背景条件。个人 dashboard 比分散的数据链接更容易持续复盘。",
+      "workflow": [
+        "拉取公开宏观指标数据。",
+        "计算或展示流动性相关序列。",
+        "渲染 dashboard 供快速阅读。",
+        "在写市场笔记时引用图表上下文。"
+      ]
+    },
+    {
+      "_id": "project-wecom-kf-ai-agent-en",
+      "_type": "project",
+      "audience": "Builders who need a minimal WeCom customer-service integration before adding a real LLM or business workflow.",
+      "defaultShareImage": null,
+      "definition": "WeCom KF AI Agent is a backend demo for receiving WeCom customer-service messages and routing them through a replaceable reply function.",
+      "faq": [
+        {
+          "_key": "721c91357043",
+          "answer": "No. It is a minimal integration demo that proves the callback and reply loop before a fuller system is added.",
+          "question": "Is this a production customer-service system?"
+        },
+        {
+          "_key": "9cf3ef22d8df",
+          "answer": "The reply generation is intentionally isolated so it can be replaced with an LLM or business-specific agent later.",
+          "question": "Where does the AI logic live?"
+        }
+      ],
+      "featured": false,
+      "kind": "customer service agent",
+      "language": "en",
+      "next": "Add deployment notes, security checklist, LLM integration examples, and production limitations.",
+      "order": 5,
+      "outcomes": [
+        "A working callback path for WeCom customer-service messages.",
+        "A simple reply function that can later be replaced with an LLM.",
+        "A testable backend skeleton for future customer-service automation."
+      ],
+      "overview": "The project keeps the first integration loop intentionally small: receive callbacks, parse events, generate a reply, and send it back. That makes it a good starting point before introducing complex agent memory or production support logic.",
+      "slug": "wecom-kf-ai-agent",
+      "summary": "A minimal WeCom customer-service AI agent demo with callback handling and reply logic.",
+      "title": "WeCom KF AI Agent",
+      "translationKey": "wecom-kf-ai-agent",
+      "why": "Customer-service integrations often fail because the first callback and message loop is harder than expected. This project isolates that loop and leaves the reply logic easy to replace.",
+      "workflow": [
+        "Configure WeCom callback credentials.",
+        "Receive and parse incoming customer-service events.",
+        "Generate a reply through a small replaceable function.",
+        "Send the reply back through the WeCom API."
+      ]
+    },
+    {
+      "_id": "project-wecom-kf-ai-agent-zh",
+      "_type": "project",
+      "audience": "适合想先跑通企业微信客服接入，再逐步加入真实 LLM 或业务工作流的开发者。",
+      "defaultShareImage": null,
+      "definition": "WeCom KF AI Agent 是一个后端 demo，用来接收企业微信客服消息，并通过可替换的回复函数生成响应。",
+      "faq": [
+        {
+          "_key": "beea9b12e373",
+          "answer": "不是。它是一个最小集成 demo，用来先验证回调和回复闭环。",
+          "question": "这是生产级客服系统吗？"
+        },
+        {
+          "_key": "17f6b7f7c95a",
+          "answer": "回复生成被刻意隔离，后续可以替换成 LLM 或业务专属智能体。",
+          "question": "AI 逻辑在哪里？"
+        }
+      ],
+      "featured": false,
+      "kind": "客服智能体",
+      "language": "zh",
+      "next": "补充部署说明、安全检查清单、LLM 接入示例和生产限制。",
+      "order": 5,
+      "outcomes": [
+        "一条可工作的企业微信客服消息回调路径。",
+        "一个后续可替换成 LLM 的简单回复函数。",
+        "一个可测试的客服自动化后端骨架。"
+      ],
+      "overview": "这个项目把第一条集成闭环刻意保持得很小：接收回调、解析事件、生成回复、发送回去。它适合作为加入复杂智能体记忆或生产客服逻辑之前的起点。",
+      "slug": "wecom-kf-ai-agent",
+      "summary": "一个处理企业微信客服回调和回复逻辑的最简 AI Agent demo。",
+      "title": "WeCom KF AI Agent",
+      "translationKey": "wecom-kf-ai-agent",
+      "why": "客服集成常常卡在第一条回调和消息闭环。这个项目把这件事单独拆出来，并让回复逻辑保持容易替换。",
+      "workflow": [
+        "配置企业微信客服回调凭据。",
+        "接收并解析进来的客服事件。",
+        "通过小型可替换函数生成回复。",
+        "调用企业微信 API 把回复发回去。"
+      ]
+    },
+    {
+      "_id": "projectsPage-en",
+      "_type": "projectsPage",
+      "defaultShareImage": null,
+      "description": "A directory of the products, systems, and interface experiments behind this site.",
+      "eyebrow": "Projects",
+      "language": "en",
+      "slug": null,
+      "title": "All projects"
+    },
+    {
+      "_id": "projectsPage-zh",
+      "_type": "projectsPage",
+      "defaultShareImage": null,
+      "description": "这个网站背后的产品、系统和界面实验目录。",
+      "eyebrow": "项目",
+      "language": "zh",
+      "slug": null,
+      "title": "所有项目"
+    },
+    {
+      "_id": "service-product-development-en",
+      "_type": "service",
+      "bestFor": "Teams that need a focused internal tool, product prototype, customer-facing interface, browser extension, API, or desktop workflow.",
+      "boundaries": "We do not turn an undefined wish list into a fixed-price promise. The first scope must have a testable outcome.",
+      "defaultShareImage": null,
+      "deliverables": [
+        "Product and technical scope",
+        "Working application or prototype",
+        "Deployment and operating notes",
+        "Source code and maintainable handoff"
+      ],
+      "enabled": true,
+      "evidence": "Capty, Twitter Translator, Routescope, Apple Price, and WeCom KF AI Agent cover desktop, browser, data, and service surfaces.",
+      "language": "en",
+      "order": 0,
+      "process": [
+        "Define the user and acceptance condition",
+        "Build the smallest complete loop",
+        "Verify behavior with real inputs",
+        "Document and harden the useful path"
+      ],
+      "slug": "product-development",
+      "summary": "Turn a defined workflow or product idea into a working web, desktop, browser, or backend surface.",
+      "title": "Software and product development",
+      "translationKey": "product-development"
+    },
+    {
+      "_id": "service-product-development-zh",
+      "_type": "service",
+      "bestFor": "需要内部工具、产品原型、客户界面、浏览器扩展、API 或桌面工作流的团队。",
+      "boundaries": "不会把未定义的愿望清单直接包装成固定价格承诺，首个范围必须拥有可测试结果。",
+      "defaultShareImage": null,
+      "deliverables": [
+        "产品与技术范围",
+        "可运行应用或原型",
+        "部署和运行说明",
+        "源代码与可维护交接"
+      ],
+      "enabled": true,
+      "evidence": "Capty、Twitter Translator、Routescope、Apple Price 和 WeCom KF AI Agent 覆盖桌面端、浏览器、数据与服务端场景。",
+      "language": "zh",
+      "order": 0,
+      "process": [
+        "明确用户和验收条件",
+        "完成最小闭环",
+        "用真实输入验证",
+        "沉淀并加固有效路径"
+      ],
+      "slug": "product-development",
+      "summary": "把定义清楚的流程或产品想法，做成可运行的 Web、桌面端、浏览器或后端界面。",
+      "title": "软件与产品研发",
+      "translationKey": "product-development"
+    },
+    {
+      "_id": "service-enterprise-ai-en",
+      "_type": "service",
+      "bestFor": "Customer service, content processing, document extraction, research, internal knowledge, and repetitive decision-support workflows.",
+      "boundaries": "We do not promise fully autonomous replacement when the process still needs judgment, permission, or accountable review.",
+      "defaultShareImage": null,
+      "deliverables": [
+        "Workflow and risk map",
+        "Model and provider integration",
+        "Human review and fallback path",
+        "Evaluation inputs and operating documentation"
+      ],
+      "enabled": true,
+      "evidence": "WeCom KF AI Agent, Capty, translation workflows, and content-processing systems show model integration close to real work.",
+      "language": "en",
+      "order": 1,
+      "process": [
+        "Map the existing human workflow",
+        "Choose where AI helps and where it must not decide",
+        "Implement a measurable loop",
+        "Evaluate failures before expanding"
+      ],
+      "slug": "enterprise-ai",
+      "summary": "Connect language and multimodal models to a real workflow, with human review and visible operating state.",
+      "title": "Enterprise AI implementation",
+      "translationKey": "enterprise-ai"
+    },
+    {
+      "_id": "service-enterprise-ai-zh",
+      "_type": "service",
+      "bestFor": "客服、内容处理、文档提取、研究、内部知识和重复决策辅助流程。",
+      "boundaries": "当流程仍需要判断、权限或责任复核时，不承诺用全自动系统完全替代人员。",
+      "defaultShareImage": null,
+      "deliverables": [
+        "流程与风险地图",
+        "模型和供应商接入",
+        "人工复核与降级路径",
+        "评测输入和运行文档"
+      ],
+      "enabled": true,
+      "evidence": "WeCom KF AI Agent、Capty、翻译工作流和内容处理系统展示了模型如何靠近真实工作。",
+      "language": "zh",
+      "order": 1,
+      "process": [
+        "还原现有人工流程",
+        "明确 AI 能做什么、不能决定什么",
+        "实现可度量闭环",
+        "先评估失败再扩大"
+      ],
+      "slug": "enterprise-ai",
+      "summary": "把语言或多模态模型接入真实流程，同时保留人工复核和可见的运行状态。",
+      "title": "企业 AI 应用与落地",
+      "translationKey": "enterprise-ai"
+    },
+    {
+      "_id": "service-geo-visibility-en",
+      "_type": "service",
+      "bestFor": "Companies with valuable knowledge and delivery experience that are scattered across pages, documents, sales material, and private workflows.",
+      "boundaries": "GEO cannot guarantee a model citation or ranking. The deliverable is a stronger evidence and information system, not a fabricated result.",
+      "defaultShareImage": null,
+      "deliverables": [
+        "Visibility and fact audit",
+        "Entity and content architecture",
+        "Structured service and evidence pages",
+        "Monitoring and iteration priorities"
+      ],
+      "enabled": true,
+      "evidence": "This site itself uses bilingual entity pages, project evidence, llms.txt, Sitemap, canonical URLs, and structured data as an inspectable implementation.",
+      "language": "en",
+      "order": 2,
+      "process": [
+        "Separate verified facts from claims",
+        "Map entities, questions, and source assets",
+        "Publish durable structured pages",
+        "Monitor visibility and refine evidence"
+      ],
+      "slug": "geo-visibility",
+      "summary": "Make company facts, expertise, services, and evidence easier for search engines and generative systems to understand and cite.",
+      "title": "GEO and AI search visibility",
+      "translationKey": "geo-visibility"
+    },
+    {
+      "_id": "service-geo-visibility-zh",
+      "_type": "service",
+      "bestFor": "拥有专业知识和交付经验，但信息散落在网页、文档、销售材料和内部流程里的企业。",
+      "boundaries": "GEO 不能保证模型引用或排名，交付的是更强的证据和信息系统，而不是编造确定结果。",
+      "defaultShareImage": null,
+      "deliverables": [
+        "可见度与事实审计",
+        "实体和内容架构",
+        "结构化服务与证据页面",
+        "监控与迭代优先级"
+      ],
+      "enabled": true,
+      "evidence": "这个网站本身使用双语实体页、项目证据、llms.txt、Sitemap、canonical 和结构化数据，形成可检查的实施案例。",
+      "language": "zh",
+      "order": 2,
+      "process": [
+        "区分已验证事实和宣传主张",
+        "梳理实体、问题和来源资产",
+        "发布稳定的结构化页面",
+        "监控可见度并补强证据"
+      ],
+      "slug": "geo-visibility",
+      "summary": "让公司的事实、能力、服务与证据更容易被搜索引擎和生成式系统理解与引用。",
+      "title": "GEO 与 AI 搜索可见度",
+      "translationKey": "geo-visibility"
+    },
+    {
+      "_id": "service-workflow-automation-en",
+      "_type": "service",
+      "bestFor": "Teams moving information between chats, documents, spreadsheets, browsers, APIs, and recurring reports.",
+      "boundaries": "Automation should not silently transmit sensitive data or perform irreversible actions without explicit permission and recovery paths.",
+      "defaultShareImage": null,
+      "deliverables": [
+        "Current-state workflow map",
+        "Automation scripts or service",
+        "Failure and retry handling",
+        "Runbook and ownership boundaries"
+      ],
+      "enabled": true,
+      "evidence": "Archiving, transcription, translation, reporting, and data-extraction workflows demonstrate repeatable cross-tool automation.",
+      "language": "en",
+      "order": 3,
+      "process": [
+        "Measure repeated friction",
+        "Choose the smallest valuable handoff",
+        "Automate with visible checkpoints",
+        "Add monitoring and recovery"
+      ],
+      "slug": "workflow-automation",
+      "summary": "Reduce repeated copying, sorting, reporting, and handoff work without hiding the process inside a black box.",
+      "title": "Workflow automation",
+      "translationKey": "workflow-automation"
+    },
+    {
+      "_id": "service-workflow-automation-zh",
+      "_type": "service",
+      "bestFor": "需要在聊天、文档、表格、浏览器、API 和周期报告之间搬运信息的团队。",
+      "boundaries": "自动化不应在缺少明确权限和恢复路径时，静默传输敏感数据或执行不可逆操作。",
+      "defaultShareImage": null,
+      "deliverables": [
+        "现状流程图",
+        "自动化脚本或服务",
+        "失败与重试机制",
+        "运行手册与责任边界"
+      ],
+      "enabled": true,
+      "evidence": "归档、转写、翻译、报告和数据提取工作流展示了可重复的跨工具自动化。",
+      "language": "zh",
+      "order": 3,
+      "process": [
+        "测量重复摩擦",
+        "选择最有价值的最小交接点",
+        "在可见检查点上自动化",
+        "增加监控与恢复"
+      ],
+      "slug": "workflow-automation",
+      "summary": "减少重复复制、整理、汇报和交接，同时避免把流程藏进不可检查的黑盒。",
+      "title": "自动化与数字化工作流",
+      "translationKey": "workflow-automation"
+    },
+    {
+      "_id": "service-cloud-infrastructure-en",
+      "_type": "service",
+      "bestFor": "Small teams that need a service moved from a local prototype to a stable, inspectable server environment.",
+      "boundaries": "Availability and response-time commitments require an explicit support agreement; they are not implied by a one-time deployment.",
+      "defaultShareImage": null,
+      "deliverables": [
+        "Deployment layout",
+        "Nginx, container, or process configuration",
+        "Health and log checks",
+        "Versioned release and rollback notes"
+      ],
+      "enabled": true,
+      "evidence": "The deployment of this Astro site uses versioned releases, Nginx configuration tests, public route checks, and preserved rollback state.",
+      "language": "en",
+      "order": 4,
+      "process": [
+        "Inspect the actual host and constraints",
+        "Deploy beside the current version",
+        "Verify locally and publicly",
+        "Switch traffic with a rollback path"
+      ],
+      "slug": "cloud-infrastructure",
+      "summary": "Ship static sites, APIs, containers, and supporting services with a clear deployment and rollback path.",
+      "title": "Cloud deployment and infrastructure",
+      "translationKey": "cloud-infrastructure"
+    },
+    {
+      "_id": "service-cloud-infrastructure-zh",
+      "_type": "service",
+      "bestFor": "需要把本地原型迁移到稳定、可检查服务器环境的小型团队。",
+      "boundaries": "可用性和响应时间承诺需要单独的支持协议，不由一次性部署自动产生。",
+      "defaultShareImage": null,
+      "deliverables": [
+        "部署结构",
+        "Nginx、容器或进程配置",
+        "健康与日志检查",
+        "版本化发布和回滚说明"
+      ],
+      "enabled": true,
+      "evidence": "这个 Astro 站点的部署使用版本化 release、Nginx 配置测试、公网路由检查和保留的回滚状态。",
+      "language": "zh",
+      "order": 4,
+      "process": [
+        "检查真实主机与约束",
+        "在现有版本旁部署",
+        "完成本机和公网验证",
+        "带回滚路径切换流量"
+      ],
+      "slug": "cloud-infrastructure",
+      "summary": "部署静态站点、API、容器和配套服务，并保留清晰的发布与回滚路径。",
+      "title": "云端部署与基础设施",
+      "translationKey": "cloud-infrastructure"
+    },
+    {
+      "_id": "servicesPage-en",
+      "_type": "servicesPage",
+      "artworkAlt": "A connected system of documents, data, AI nodes, automation paths, and a deployment server",
+      "artworkCaption": "Software, AI, GEO, automation, and deployment connected as one workflow",
+      "bestForLabel": "Best for",
+      "boundariesLabel": "Boundaries",
+      "ctaLabel": "Contact us",
+      "ctaText": "Describe the current workflow and the result that needs to become reliable.",
+      "ctaTitle": "Have a problem that belongs in a working system?",
+      "defaultShareImage": null,
+      "deliverablesLabel": "Possible deliverables",
+      "description": "Practical software, enterprise AI, GEO, workflow automation, and deployment services from Jeason Zhang and Multiple Engine.",
+      "evidenceLabel": "Relevant evidence",
+      "eyebrow": "Services",
+      "headline": "Build the working loop, then make it maintainable.",
+      "headlineLines": [
+        "Build the working loop,",
+        "then make it maintainable."
+      ],
+      "language": "en",
+      "lede": "The work starts with a concrete operating problem. Each engagement aims to produce an inspectable result: software, a workflow, a structured content system, or a deployment that can be run and maintained.",
+      "processLabel": "How we move",
+      "slug": null,
+      "title": "Services"
+    },
+    {
+      "_id": "servicesPage-zh",
+      "_type": "servicesPage",
+      "artworkAlt": "文档、数据、AI 节点、自动化流程和服务器连接成的系统图",
+      "artworkCaption": "软件、AI、GEO、自动化与部署连接成同一个工作流",
+      "bestForLabel": "适合什么问题",
+      "boundariesLabel": "合作边界",
+      "ctaLabel": "联系合作",
+      "ctaText": "请先描述当前流程，以及哪个结果必须变得可靠。",
+      "ctaTitle": "有一个应该进入系统的问题？",
+      "defaultShareImage": null,
+      "deliverablesLabel": "可能交付什么",
+      "description": "Jeason Zhang 与倍数引擎提供软件研发、企业 AI 落地、GEO、工作流自动化和部署服务。",
+      "evidenceLabel": "相关能力证据",
+      "eyebrow": "服务",
+      "headline": "先把闭环跑起来，再让它可以长期维护。",
+      "headlineLines": [
+        "先把闭环跑起来，",
+        "再让它可以长期维护。"
+      ],
+      "language": "zh",
+      "lede": "工作从一个具体的运行问题开始。每次合作都应产生可检查的结果：软件、工作流、结构化内容系统，或能够持续运行和维护的部署。",
+      "processLabel": "如何推进",
+      "slug": null,
+      "title": "服务"
+    },
+    {
+      "_id": "siteCopy-en",
+      "_type": "siteCopy",
+      "aboutLabel": "About",
+      "activeThreads": "person · products · company",
+      "alternateLanguage": "中文",
+      "bestFor": "Best for",
+      "checklist": "Checklist",
+      "companyLabel": "Company",
+      "contactAction": "Discuss a project",
+      "contactLabel": "Contact",
+      "currentNotes": "Current notes",
+      "defaultShareImage": null,
+      "definition": "Definition",
+      "examples": "Examples",
+      "faq": "FAQ",
+      "footerCompany": "Delivery company",
+      "footerContact": "Contact",
+      "footerOffice": "Office",
+      "language": "en",
+      "languageName": "English",
+      "nextSteps": "Next steps",
+      "noteLabel": "Notes",
+      "notesTitle": "Notes that keep the reasoning visible.",
+      "outcomes": "What it produces",
+      "overview": "Overview",
+      "primaryNavigationLabel": "Primary navigation",
+      "principles": "Principles",
+      "projectLabel": "Projects",
+      "projectsTitle": "Projects with a working surface.",
+      "readNotes": "Read notes",
+      "redirectLinkLabel": "continue here",
+      "redirectMessage": "Entering the website. If you are not redirected automatically,",
+      "selectedWork": "Evidence in working software",
+      "servicesLabel": "Services",
+      "siteControlsLabel": "Site controls",
+      "slug": null,
+      "themeDark": "Dark",
+      "themeLight": "Light",
+      "viewWork": "View projects",
+      "whyItMatters": "Why it matters",
+      "workflow": "Workflow",
+      "workspace": "connected practice"
+    },
+    {
+      "_id": "siteCopy-zh",
+      "_type": "siteCopy",
+      "aboutLabel": "作者",
+      "activeThreads": "个人 · 产品 · 公司",
+      "alternateLanguage": "EN",
+      "bestFor": "适合谁",
+      "checklist": "检查清单",
+      "companyLabel": "公司",
+      "contactAction": "沟通合作",
+      "contactLabel": "联系",
+      "currentNotes": "当前笔记",
+      "defaultShareImage": null,
+      "definition": "一句话定义",
+      "examples": "例子",
+      "faq": "常见问题",
+      "footerCompany": "交付公司",
+      "footerContact": "联系",
+      "footerOffice": "办公地址",
+      "language": "zh",
+      "languageName": "中文",
+      "nextSteps": "下一步",
+      "noteLabel": "笔记",
+      "notesTitle": "把判断过程保留下来的笔记。",
+      "outcomes": "产出什么",
+      "overview": "概览",
+      "primaryNavigationLabel": "主导航",
+      "principles": "原则",
+      "projectLabel": "项目",
+      "projectsTitle": "有真实工作面的项目。",
+      "readNotes": "阅读笔记",
+      "redirectLinkLabel": "请点击这里",
+      "redirectMessage": "正在进入网站。如果没有自动跳转，",
+      "selectedWork": "运行中的能力证据",
+      "servicesLabel": "服务",
+      "siteControlsLabel": "网站控制",
+      "slug": null,
+      "themeDark": "夜间",
+      "themeLight": "日间",
+      "viewWork": "查看项目",
+      "whyItMatters": "为什么重要",
+      "workflow": "工作流",
+      "workspace": "一体化工作面"
+    },
+    {
+      "_id": "siteSettings",
+      "_type": "siteSettings",
+      "addressEn": "Room B509, Building 1, Longgang Venture Capital Building, No. 9 Tengfei Road, Longcheng Subdistrict, Longgang District, Shenzhen, China",
+      "addressZh": "深圳市龙岗区龙城街道黄阁坑社区腾飞路 9 号龙岗创投大厦 1 号楼 B509",
+      "authorName": "Jeason Zhang",
+      "cityEn": "Shenzhen",
+      "cityZh": "深圳",
+      "countryCode": "CN",
+      "defaultLanguage": "zh",
+      "defaultSeoDescription": "Jeason Zhang 与倍数引擎围绕真实业务问题构建软件、企业 AI 工作流、GEO 系统、自动化和可部署工具。",
+      "defaultSeoTitle": "Jeason Zhang × 倍数引擎",
+      "defaultShareImage": null,
+      "githubUrl": "https://github.com/jeasonzhang-eth",
+      "icpNumber": "粤ICP备2026080071号",
+      "icpUrl": "https://beian.miit.gov.cn",
+      "legalNameEn": "Shenzhen Multiple Engine Software Technology Co., Ltd.",
+      "legalNameZh": "深圳市倍数引擎软件技术有限责任公司",
+      "llmsDescription": "Jeason Zhang builds practical software, enterprise AI workflows, GEO systems, automation, and deployable tools. Shenzhen Multiple Engine Software Technology Co., Ltd. is the formal cooperation and delivery entity behind the work.",
+      "phoneDisplay": "185 9314 1894",
+      "phoneHref": "tel:18593141894",
+      "postalCode": "518000",
+      "shortNameEn": "Multiple Engine",
+      "shortNameZh": "倍数引擎",
+      "siteName": "Jeason Zhang",
+      "siteUrl": "https://beishuyinqing.cn",
+      "slug": null,
+      "verificationFile": "WW_verify_Xs9oqr5SLRAcpl58.txt"
+    }
+  ]
+}

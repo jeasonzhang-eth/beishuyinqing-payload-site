@@ -1,0 +1,57 @@
+name: multiple-engine
+
+x-runtime-environment: &runtime-environment
+  DATABASE_URL: file:/app/data/payload.db
+  NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:?NEXT_PUBLIC_SERVER_URL is required}
+  PAYLOAD_SECRET: ${PAYLOAD_SECRET:?PAYLOAD_SECRET is required}
+
+x-payload-data: &payload-data payload-data:/app/data
+x-payload-media: &payload-media payload-media:/app/media
+
+services:
+  site:
+    build:
+      context: .
+    container_name: multiple-engine-site
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      <<: *runtime-environment
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - '127.0.0.1:${SITE_PORT:-3000}:3000'
+    volumes:
+      - *payload-data
+      - *payload-media
+      - ./backups:/app/backups
+    init: true
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--spider', 'http://127.0.0.1:3000/zh/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  seed:
+    profiles: [maintenance]
+    build:
+      context: .
+      target: builder
+    env_file:
+      - .env
+    environment:
+      <<: *runtime-environment
+      NODE_ENV: production
+    volumes:
+      - *payload-data
+      - *payload-media
+    command:
+      - sh
+      - -lc
+      - corepack pnpm seed && chown -R 1001:1001 /app/data /app/media
+
+volumes:
+  payload-data:
+  payload-media:
