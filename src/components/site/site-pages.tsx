@@ -12,7 +12,7 @@ import {
 } from '@/lib/site/routes'
 
 import { DisplayHeadline } from './display-headline'
-import { EditorialArtwork } from './editorial-artwork'
+import { BrandField, BrandMark, CapabilityIcon } from './brand-assets'
 import { JsonLd } from './json-ld'
 
 function localized<T extends { language: Language }>(items: T[], language: Language): T[] {
@@ -26,7 +26,10 @@ export function Home({ data, language }: { data: SiteData; language: Language })
   const services = localized(data.services, language)
   const notes = localized(data.notes, language)
   const organizationName = language === 'zh' ? data.settings.legalNameZh : data.settings.legalNameEn
+  const brandName = language === 'zh' ? data.settings.shortNameZh : data.settings.shortNameEn
   const pathname = localizePath(language)
+  const capabilities = services.slice(0, 4)
+  const foundations = services.slice(4)
 
   return (
     <>
@@ -50,24 +53,30 @@ export function Home({ data, language }: { data: SiteData; language: Language })
           {
             '@context': 'https://schema.org',
             '@type': 'WebSite',
-            name: `${data.settings.siteName} x ${data.settings.shortNameEn}`,
+            name: brandName,
             url: `${data.settings.siteUrl}${pathname}`,
             inLanguage: language === 'zh' ? 'zh-CN' : 'en',
             description: page.description,
           },
         ]}
       />
-      <section aria-labelledby="hero-title" className="hero integrated-hero">
+      <section aria-labelledby="hero-title" className="hero integrated-hero brand-hero">
         <div className="hero-copy">
-          <p className="eyebrow">{page.eyebrow}</p>
-          <DisplayHeadline
-            ariaLabel={page.headline}
-            id="hero-title"
-            language={language}
-            lines={values(page.headlineLines)}
-            variant="hero"
-          />
-          <p className="hero-identity">{page.identity}</p>
+          <p className="eyebrow">
+            {language === 'zh'
+              ? 'MULTIPLE ENGINE · 企业 AI 与软件系统'
+              : 'MULTIPLE ENGINE · Enterprise AI and software systems'}
+          </p>
+          <h1 className="hero-brand-name" id="hero-title">
+            {brandName}
+          </h1>
+          <h2 aria-label={page.headline} className="hero-statement">
+            {values(page.headlineLines).map((line) => (
+              <span aria-hidden="true" key={line}>
+                {line}
+              </span>
+            ))}
+          </h2>
           <p className="lede">{page.lede}</p>
           <div aria-label={page.primaryActionsLabel} className="hero-actions">
             <a className="button primary" href="#work">
@@ -78,31 +87,30 @@ export function Home({ data, language }: { data: SiteData; language: Language })
             </Link>
           </div>
         </div>
-        <EditorialArtwork
-          alt={page.artworkAlt}
-          caption={page.artworkCaption}
-          priority
-          variant="workbench"
-        />
+        <BrandField language={language} />
       </section>
 
-      <section aria-labelledby="work-title" className="section" id="work">
+      <section aria-labelledby="work-title" className="section proof-section" id="work">
         <div className="section-heading">
           <p className="eyebrow">{copy.selectedWork}</p>
           <h2 id="work-title">{copy.projectsTitle}</h2>
         </div>
         <div className="project-list">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <Link
               className="project-card project-link"
               href={localizePath(language, `projects/${project.slug}`)}
               key={project.id}
             >
+              <span className="project-index">{String(index + 1).padStart(2, '0')}</span>
               <div>
                 <p>{project.kind}</p>
                 <h3>{project.title}</h3>
               </div>
               <span>{project.summary}</span>
+              <span aria-hidden="true" className="row-arrow">
+                -&gt;
+              </span>
             </Link>
           ))}
         </div>
@@ -115,18 +123,35 @@ export function Home({ data, language }: { data: SiteData; language: Language })
           <p>{page.servicesIntro}</p>
         </div>
         <div className="home-service-grid">
-          {services.map((service, index) => (
+          {capabilities.map((service, index) => (
             <Link
               className="home-service-card"
               href={`${localizePath(language, 'services')}#${service.slug}`}
               key={service.id}
             >
-              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div className="capability-card__topline">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <CapabilityIcon index={index} />
+              </div>
               <h3>{service.title}</h3>
               <p>{service.summary}</p>
             </Link>
           ))}
         </div>
+        {foundations.map((service) => (
+          <Link
+            className="delivery-foundation"
+            href={`${localizePath(language, 'services')}#${service.slug}`}
+            key={service.id}
+          >
+            <span>{language === 'zh' ? '交付底座' : 'Delivery foundation'}</span>
+            <strong>{service.title}</strong>
+            <p>{service.summary}</p>
+            <span aria-hidden="true" className="row-arrow">
+              -&gt;
+            </span>
+          </Link>
+        ))}
       </section>
 
       <section aria-labelledby="method-title" className="method-section">
@@ -144,16 +169,18 @@ export function Home({ data, language }: { data: SiteData; language: Language })
         </ol>
       </section>
 
-      <section aria-labelledby="notes-title" className="section notes" id="notes">
+      <section aria-labelledby="notes-title" className="section notes insight-section" id="notes">
         <div className="section-heading">
           <p className="eyebrow">{copy.currentNotes}</p>
           <h2 id="notes-title">{copy.notesTitle}</h2>
         </div>
-        <ul className="note-tags">
+        <ul className="note-tags insight-list">
           {notes.map((note) => (
             <li key={note.id}>
               <Link href={localizePath(language, `notes/${note.slug}`)}>
-                {note.tags?.[0]?.value || copy.noteLabel}
+                <span>{note.tags?.[0]?.value || copy.noteLabel}</span>
+                <strong>{note.title}</strong>
+                <small>{note.summary}</small>
               </Link>
             </li>
           ))}
@@ -200,11 +227,7 @@ export function About({ data, language }: { data: SiteData; language: Language }
       />
       <p className="lede">{page.lede}</p>
       <div aria-label={page.title} className="about-panel">
-        <div aria-hidden="true" className="about-mark">
-          <span />
-          <span />
-          <span />
-        </div>
+        <BrandMark className="about-brand-mark" />
         <div>
           <p>{data.settings.authorName}</p>
           <span>{page.description}</span>
@@ -248,9 +271,9 @@ export function Company({ data, language }: { data: SiteData; language: Language
         lines={values(page.headlineLines)}
       />
       <p className="lede">{page.lede}</p>
-      <EditorialArtwork alt={page.artworkAlt} caption={page.artworkCaption} variant="company" />
+      <BrandField language={language} variant="company" />
       <div aria-label={organizationName} className="company-stamp">
-        <span aria-hidden="true">倍</span>
+        <BrandMark className="company-stamp__mark" />
         <div>
           <strong>{organizationName}</strong>
           <p>{otherName}</p>
@@ -365,12 +388,17 @@ export function Services({ data, language }: { data: SiteData; language: Languag
         lines={values(page.headlineLines)}
       />
       <p className="lede">{page.lede}</p>
-      <EditorialArtwork alt={page.artworkAlt} caption={page.artworkCaption} variant="systems" />
+      <BrandField language={language} variant="systems" />
       <nav aria-label={page.title} className="service-index">
         {services.map((service, index) => (
           <a href={`#${service.slug}`} key={service.id}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            {service.title}
+            <span>{index < 4 ? String(index + 1).padStart(2, '0') : 'BASE'}</span>
+            {index < 4 ? (
+              <CapabilityIcon index={index} />
+            ) : (
+              <BrandMark className="service-index__foundation-mark" />
+            )}
+            <strong>{service.title}</strong>
           </a>
         ))}
       </nav>
@@ -378,10 +406,17 @@ export function Services({ data, language }: { data: SiteData; language: Languag
         {services.map((service, index) => (
           <section className="service-detail" id={service.slug} key={service.id}>
             <div aria-hidden="true" className="service-number">
-              {String(index + 1).padStart(2, '0')}
+              {index < 4 ? String(index + 1).padStart(2, '0') : 'BASE'}
             </div>
             <div className="service-body">
-              <h2>{service.title}</h2>
+              <div className="service-heading-row">
+                {index < 4 ? (
+                  <CapabilityIcon index={index} />
+                ) : (
+                  <BrandMark className="service-heading__foundation-mark" />
+                )}
+                <h2>{service.title}</h2>
+              </div>
               <p className="service-summary">{service.summary}</p>
               <div className="service-facts">
                 <TextSection text={service.bestFor} title={page.bestForLabel} />
@@ -627,6 +662,7 @@ function ClosingPanel({
 }) {
   return (
     <section className="closing-panel">
+      <BrandMark className="closing-panel__mark" />
       <p className="eyebrow">{eyebrow}</p>
       <h2>{title}</h2>
       <p>{text}</p>

@@ -2,10 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSyncExternalStore } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 
 import type { SiteCopy, SiteSetting } from '@/payload-types'
 import { alternateLanguage, localizePath, type Language } from '@/lib/site/routes'
+
+import { BrandLogo } from './brand-assets'
 
 type LocalizedCopy = SiteCopy[Language]
 
@@ -32,6 +34,7 @@ export function SiteHeader({
   alternatePath: string
 }) {
   const pathname = usePathname()
+  const [menuOpen, setMenuOpen] = useState(false)
   const isDark = useSyncExternalStore(subscribeTheme, currentThemeIsDark, () => false)
   const otherLanguage = alternateLanguage(language)
   const navItems = [
@@ -57,21 +60,18 @@ export function SiteHeader({
   return (
     <header aria-label={copy.siteControlsLabel} className="site-toolbar">
       <Link
-        aria-label={`${settings.siteName} home`}
+        aria-label={`${language === 'zh' ? settings.shortNameZh : settings.shortNameEn} home`}
         className="brand"
         href={localizePath(language)}
       >
-        <span aria-hidden="true" className="brand-mark">
-          <span />
-          <span />
-          <span />
-        </span>
-        <span className="brand-copy">
-          <strong>{settings.siteName}</strong>
-          <small>{language === 'zh' ? settings.shortNameZh : settings.shortNameEn}</small>
-        </span>
+        <BrandLogo className="brand-logo brand-logo--color" priority />
+        <BrandLogo className="brand-logo brand-logo--white" priority tone="white" />
       </Link>
-      <nav aria-label={copy.primaryNavigationLabel} className="site-nav">
+      <nav
+        aria-label={copy.primaryNavigationLabel}
+        className={`site-nav${menuOpen ? ' is-open' : ''}`}
+        id="primary-navigation"
+      >
         {navItems.map((item) => {
           const isCurrent = pathname === item.href || pathname.startsWith(item.href)
           return (
@@ -80,6 +80,7 @@ export function SiteHeader({
               className={[item.className, isCurrent ? 'is-current' : ''].filter(Boolean).join(' ')}
               href={item.href}
               key={item.href}
+              onClick={() => setMenuOpen(false)}
             >
               {item.label}
             </Link>
@@ -95,9 +96,33 @@ export function SiteHeader({
           aria-pressed={isDark}
           className="control-button theme-toggle"
           onClick={toggleTheme}
+          title={isDark ? copy.themeLight : copy.themeDark}
           type="button"
         >
-          {isDark ? copy.themeLight : copy.themeDark}
+          <span aria-hidden="true" className="theme-symbol">
+            {isDark ? '○' : '●'}
+          </span>
+        </button>
+        <button
+          aria-controls="primary-navigation"
+          aria-expanded={menuOpen}
+          aria-label={
+            menuOpen
+              ? language === 'zh'
+                ? '关闭导航'
+                : 'Close navigation'
+              : language === 'zh'
+                ? '打开导航'
+                : 'Open navigation'
+          }
+          className="control-button menu-toggle"
+          onClick={() => setMenuOpen((open) => !open)}
+          type="button"
+        >
+          <span aria-hidden="true" className="menu-symbol">
+            <span />
+            <span />
+          </span>
         </button>
       </div>
     </header>

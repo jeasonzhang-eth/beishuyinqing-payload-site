@@ -22,7 +22,7 @@ export async function GET() {
     )
     .join('\n')
   const body = [
-    `# ${data.settings.siteName} x ${data.settings.shortNameEn}`,
+    `# ${data.settings.shortNameZh} / ${data.settings.shortNameEn}`,
     '',
     `> ${data.settings.llmsDescription}`,
     '',

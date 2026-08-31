@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-01
+
+- Rebuilt the public frontend around the official Multiple Engine brand system, including authoritative logo assets, a restrained graphite, blue, and teal interface, branded metadata, favicon, and social sharing artwork.
+- Reframed the homepage and service directory around the four approved capabilities, with infrastructure presented as a delivery foundation rather than a fifth product line.
+- Added an accessible responsive navigation, branded dark mode, and browser coverage for the homepage, content detail pages, discovery files, and every primary directory route.
+- Kept nested migration worktrees out of lint traversal so repository checks cover authored source without scanning generated Next.js output.
+
 ## 2026-08-31
 
 - Restored the local worktree ignore rule so the primary submodule checkout stays clean while migration worktrees remain available.
