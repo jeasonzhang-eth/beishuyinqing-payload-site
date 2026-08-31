@@ -2,6 +2,7 @@
 
 ## 2026-08-31
 
+- Restored the local worktree ignore rule so the primary submodule checkout stays clean while migration worktrees remain available.
 - Made Payload configuration load the repository environment file directly so local Next.js and Turbopack startup cannot initialize Payload before `PAYLOAD_SECRET` is available.
 - Hardened Compose deployment with required production variables, loopback-only exposure, stable persistent volumes, a pinned package manager, and an idempotent one-shot content seeder for fresh servers.
 - Restricted user and media mutations to authenticated administrators before exposing the Payload API in production.
