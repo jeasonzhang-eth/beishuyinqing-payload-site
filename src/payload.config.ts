@@ -23,6 +23,7 @@ import {
 } from './globals/pages'
 import { SiteCopy } from './globals/SiteCopy'
 import { SiteSettings } from './globals/SiteSettings'
+import { migrations } from './migrations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -58,6 +59,7 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URL || '',
     },
+    prodMigrations: migrations,
   }),
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
   sharp,

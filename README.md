@@ -76,7 +76,7 @@ docker compose up -d --build site
 docker compose ps
 ```
 
-The one-shot `seed` service imports the checked-in Sanity snapshot and fixes persistent-volume ownership before the non-root site process starts. It is idempotent and can be run again to update migrated records. `compose.yaml` binds the application only to `127.0.0.1`; place Nginx or another authenticated reverse proxy in front of it.
+The one-shot `seed` service applies registered Payload migrations, imports the checked-in Sanity snapshot, and fixes persistent-volume ownership before the non-root site process starts. It is idempotent and can be run again to update migrated records. `compose.yaml` binds the application only to `127.0.0.1`; place Nginx or another authenticated reverse proxy in front of it.
 
 The Compose project has a stable name, so its SQLite and media volumes survive source release-directory changes. Do not scale this SQLite service beyond one application instance; migrate to PostgreSQL before horizontal scaling.
 
