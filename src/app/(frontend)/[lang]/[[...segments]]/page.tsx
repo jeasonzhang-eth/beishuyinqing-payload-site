@@ -124,10 +124,10 @@ export async function generateMetadata({ params }: { params: RouteParams }): Pro
   const route = resolveRoute(data, lang, segments)
   if (!route) return {}
   const source = seoData(data, lang, route)
-  const title = source.seo?.title || source.title
+  const brandName = lang === 'zh' ? data.settings.shortNameZh : data.settings.shortNameEn
+  const title = route.kind === 'home' ? brandName : source.seo?.title || source.title
   const description = source.seo?.description || source.description
-  const pageTitle =
-    title === data.settings.siteName ? title : `${title} | ${data.settings.siteName}`
+  const pageTitle = title === brandName ? title : `${title} | ${brandName}`
   const pathname = localizePath(lang, segments.join('/'))
   const alternate = alternatePath(data, lang, segments, route)
   const alternateLang = alternateLanguage(lang)
@@ -148,12 +148,25 @@ export async function generateMetadata({ params }: { params: RouteParams }): Pro
     openGraph: {
       title: pageTitle,
       description,
-      siteName: data.settings.siteName,
+      siteName: brandName,
       type: route.kind === 'note' ? 'article' : 'website',
       url: canonicalUrl(data.settings.siteUrl, pathname),
       locale: lang === 'zh' ? 'zh_CN' : 'en_US',
+      images: [
+        {
+          url: '/brand/share-card.png',
+          width: 1200,
+          height: 630,
+          alt: `${brandName} / Multiple Engine`,
+        },
+      ],
     },
-    twitter: { card: 'summary', title: pageTitle, description },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description,
+      images: ['/brand/share-card.png'],
+    },
   }
 }
 

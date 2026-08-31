@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { isLanguage } from '@/lib/site/routes'
 
 import '../site.css'
+import '../brand.css'
 
 const themeScript = `(() => {
   let saved = null;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">倍数引擎核心图标</title>
+  <desc id="desc">四个能力臂围绕中心倍增节点组成抽象乘法符号</desc>
+  <g fill="#155EEF" transform="rotate(45 60 60)">
+    <rect x="10" y="51" width="38" height="18" rx="3"/>
+    <rect x="72" y="51" width="38" height="18" rx="3"/>
+  </g>
+  <g fill="#202936" transform="rotate(-45 60 60)">
+    <rect x="10" y="51" width="38" height="18" rx="3"/>
+    <rect x="72" y="51" width="38" height="18" rx="3"/>
+  </g>
+  <rect x="52" y="52" width="16" height="16" rx="2" fill="#12BFA5" transform="rotate(45 60 60)"/>
+</svg>

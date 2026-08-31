@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" role="img" aria-labelledby="title desc">
+  <title id="title">倍数引擎横版白色标志</title>
+  <desc id="desc">A2 核心图标配中文主标和英文副标的反白组合</desc>
+  <g transform="translate(18 30)">
+    <g fill="#FFFFFF" transform="rotate(45 60 60)">
+      <rect x="10" y="51" width="38" height="18" rx="3"/>
+      <rect x="72" y="51" width="38" height="18" rx="3"/>
+    </g>
+    <g fill="#FFFFFF" transform="rotate(-45 60 60)">
+      <rect x="10" y="51" width="38" height="18" rx="3"/>
+      <rect x="72" y="51" width="38" height="18" rx="3"/>
+    </g>
+    <rect x="52" y="52" width="16" height="16" rx="2" fill="#FFFFFF" transform="rotate(45 60 60)"/>
+  </g>
+  <text x="168" y="88" fill="#FFFFFF" font-family="Hiragino Sans GB, PingFang SC, sans-serif" font-size="52" font-weight="700">倍数引擎</text>
+  <text x="171" y="124" fill="#FFFFFF" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700">MULTIPLE ENGINE</text>
+</svg>
